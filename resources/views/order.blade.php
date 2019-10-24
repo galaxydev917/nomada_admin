@@ -134,6 +134,7 @@
         updates['/orders/' + updateID] = postData;
         firebase.database().ref('orders/' + updateID).update(postData);
         $("#update-modal").modal('hide');
+        $(".modal-backdrop").addClass('hide');
     });
     // Remove Data
     $("body").on('click', '.removeData', function () {

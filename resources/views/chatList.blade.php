@@ -85,9 +85,9 @@
     firebase.database().ref('users/').on('value', function (snapshot) {
         var value = snapshot.val();
         var htmls = [];
-        if(snapshot.hasChildren()){
-            htmls.push('<li class="list-group-item"><input type="text" placeholder="Search or Start new chat" class="form-control form-rounded"></li>');
-        }
+        // if(snapshot.hasChildren()){
+        //     htmls.push('<li class="list-group-item"><input type="text" placeholder="Search or Start new chat" class="form-control form-rounded"></li>');
+        // }
         $.each(value, function (index, value) {
             if (value) {
                 htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+')">\
