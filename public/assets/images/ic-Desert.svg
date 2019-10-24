@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="41.412" height="41.412" viewBox="0 0 41.412 41.412">
+  <g id="ic-Desert" transform="translate(0.698 0.698)">
+    <path id="Path" d="M6.217,22.422c3.135,0,4.114-2.331,5.9-3.787a7.888,7.888,0,1,1,15.552,2.643c1.787-1.457,2.768-3.786,5.9-3.786,3.314,0,4.22,2.6,6.218,4.027q.06-.773.061-1.562A19.956,19.956,0,0,0,0,18.395C2,19.818,2.9,22.422,6.217,22.422Z" transform="translate(0.113 0.052)" fill="none" stroke="#7e9a2b" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+    <path id="Path-2" data-name="Path" d="M33.635,0c-3.134,0-4.114,2.33-5.9,3.786A7.888,7.888,0,0,1,12.18,1.142C10.392,2.6,9.413,4.93,6.277,4.93,2.963,4.93,2.058,2.326.061.9Q0,1.675,0,2.465A19.956,19.956,0,0,0,39.851,4.026C37.853,2.6,36.949,0,33.635,0Z" transform="translate(0.052 17.543)" fill="none" stroke="#7e9a2b" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+    <circle id="Oval" cx="2.364" cy="2.364" r="2.364" stroke-width="1.5" transform="translate(4.073 13.699)" stroke="#e1b828" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" fill="none"/>
+    <circle id="Oval-2" data-name="Oval" cx="2.364" cy="2.364" r="2.364" transform="translate(28.984 10.148)" stroke-width="1.5" stroke="#e1b828" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" fill="none"/>
+    <circle id="Oval-3" data-name="Oval" cx="2.364" cy="2.364" r="2.364" transform="translate(21.588 3.347)" stroke-width="1.5" stroke="#e1b828" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" fill="none"/>
+    <circle id="Oval-4" data-name="Oval" cx="2.364" cy="2.364" r="2.364" transform="translate(11.285 5.812)" stroke-width="1.5" stroke="#e1b828" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" fill="none"/>
+    <path id="Path-3" data-name="Path" d="M29.88,0A16.238,16.238,0,0,1,14.963,9.912,16.238,16.238,0,0,1,0,.071" transform="translate(5.084 26.327)" fill="none" stroke="#e1b828" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+    <path id="Path-4" data-name="Path" d="M.08,0Q.053.136.025.272" transform="translate(35.868 23.089)" fill="none" stroke="#e1b828" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5"/>
+  </g>
+</svg>
