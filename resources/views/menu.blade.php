@@ -9,6 +9,7 @@
     <h5># Add Menu</h5>
     <div class="card-default">
         <div class="card-body">
+            <img src="images/spinner.gif" id="gif" style="display: block; margin: 0 auto; width: 100px; visibility: hidden;">
             <form id="addCustomer" class="form-inline" method="POST" action="" enctype="multipart/form-data">
                 <div class="form-group bmd-form-group col-md-2">
                     <label class="bmd-label-floating"></label>
@@ -142,6 +143,7 @@
     // Add Data
     $('#submitCustomer').on('click', function () {
         var values = $("#addCustomer").serializeArray();
+        $('#gif').css('visibility', 'visible');
         var name = values[0].value;
         var description = values[1].value;
         var price = values[2].value;
@@ -181,6 +183,7 @@
                     category: category,
                     image: downlaodURL
                 });
+                $('#gif').css('visibility', 'hidden');
             });
         });               
         // Reassign lastID value
@@ -214,7 +217,7 @@
             <div class="form-group">\
 		        <label for="pic" class="col-md-12 col-form-label">Picture</label>\
 		        <div class="col-md-12">\
-		            <input id="pic" type="file" class="form-control" name="pic"><img src="' + values.image + '" width=100 height=100>\
+		            <input id="image" type="file" class="form-control" name="pic"><img src="' + values.image + '" width=100 height=100>\
 		        </div>\
 		    </div>\
             <input id="category" type="hidden" class="form-control" name="category" value="' + values.category + '">';
@@ -222,23 +225,56 @@
         });
     });
     $('.updateCustomer').on('click', function () {
-        var values = $(".users-update-record-model").serializeArray();
-        // var fileUpload = document.getElementById("pic");
-        // fileUpload.on(‘change’, function(evt) {
-        // var firstFile = evt.target.file[0]; // get the first file uploaded
-        // var uploadTask = storageRef.put(firstFile);
-        // });
+        var values = $(".users-update-record-model").serializeArray();        
         var postData = {
             name: values[0].value,
             description: values[1].value,
             price: values[2].value,
-            category: values[3].value,
+            category: values[4].value,
             available: true,
-            image: ""
-        };
+            image: values[3].value,
+            };
         var updates = {};
         updates['/menu/' + updateID] = postData;
         firebase.database().ref().update(updates);
+        var image=document.getElementById("image").files[0];
+        //now get your image name
+        var imageName=image.name;
+        //firebase  storage reference
+        //it is the path where yyour image will store
+        var storageRef=firebase.storage().ref('menu/'+imageName);
+        //upload image to selected storage reference
+
+        var uploadTask=storageRef.put(image);
+
+        uploadTask.on('state_changed',function (snapshot) {
+            //observe state change events such as progress , pause ,resume
+            //get task progress by including the number of bytes uploaded and total
+            //number of bytes
+            var progress=(snapshot.bytesTransferred/snapshot.totalBytes)*100;
+            console.log("upload is " + progress +" done");
+        },function (error) {
+            //handle error here
+            console.log(error.message);
+        },function () {
+        //handle successful uploads on complete
+
+            uploadTask.snapshot.ref.getDownloadURL().then(function (downlaodURL) {
+                //get your upload image url here...
+                console.log(downlaodURL);
+                var postData = {
+                    name: values[0].value,
+                    description: values[1].value,
+                    price: values[2].value,
+                    category: values[4].value,
+                    available: true,
+                    image: downlaodURL,
+                    };
+                var updates = {};
+                updates['/menu/' + updateID] = postData;
+                firebase.database().ref().update(updates);
+            });
+        });    
         $("#update-modal").modal('hide');
     });
     // Remove Data

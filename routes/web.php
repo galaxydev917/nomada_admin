@@ -12,7 +12,7 @@
 */
 Route::group(['middleware' => ['web']], function() {
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 Route::get('/firebase','FirebaseController@index');
 Route::get('menu/{id}', 'menuController@index');

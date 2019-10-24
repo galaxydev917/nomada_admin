@@ -19,13 +19,15 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @if(Auth::user())
     <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
+    @endif
 </head>
 <body>
     <div class="d-flex" id="wrapper">
             @if(Auth::user())
             <div class="bg-light border-right col-md-3" id="sidebar-wrapper">
-                <div class="sidebar-heading">Nomada </div>
+                <div class="sidebar-heading">Nomada</div>
                 <div class="list-group list-group-flush">
                   <a href="{{ url('/') }}" class="list-group-item list-group-item-action bg-light">Dashboard</a>
                   <a href="{{ url('menu') }}" class="list-group-item list-group-item-action bg-light">Menu</a>
