@@ -33,7 +33,11 @@
                   <a href="{{ url('menu') }}" class="list-group-item list-group-item-action bg-light">Menu</a>
                   <a href="{{ url('order') }}" class="list-group-item list-group-item-action bg-light">order</a>
                   <a href="{{ url('chat') }}" class="list-group-item list-group-item-action bg-light">chat</a>
-                  <a href="{{ route('logout') }}" class="list-group-item list-group-item-action bg-light">Logout</a>
+                  <a href="{{ route('logout') }}" class="list-group-item list-group-item-action bg-light"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                </a>
                   {{-- <a href="#" class="list-group-item list-group-item-action bg-light">Status</a> --}}
                 </div>
               </div>
@@ -67,7 +71,7 @@
                                 </li>
                             @endif
                         @else
-                            <li class="nav-item dropdown">
+                            {{-- <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
                                 </a>
@@ -83,7 +87,7 @@
                                         @csrf
                                     </form>
                                 </div>
-                            </li>
+                            </li> --}}
                         @endguest
                     </ul>
                 </div>
