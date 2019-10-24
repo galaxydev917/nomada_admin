@@ -9,7 +9,7 @@
     <h5># Add Menu</h5>
     <div class="card-default">
         <div class="card-body">
-            <img src="images/spinner.gif" id="gif" style="display: block; margin: 0 auto; width: 100px; visibility: hidden;">
+            <img src="{{URL::asset('/images/spinner.gif')}}" id="gif" style="display: block; margin: 0 auto; width: 100px; visibility: hidden;">
             <form id="addCustomer" class="form-inline" method="POST" action="" enctype="multipart/form-data">
                 <div class="form-group bmd-form-group col-md-2">
                     <label class="bmd-label-floating"></label>
@@ -225,7 +225,8 @@
         });
     });
     $('.updateCustomer').on('click', function () {
-        var values = $(".users-update-record-model").serializeArray();        
+        var values = $(".users-update-record-model").serializeArray(); 
+        updateID = $(this).attr('data-id');       
         var postData = {
             name: values[0].value,
             description: values[1].value,

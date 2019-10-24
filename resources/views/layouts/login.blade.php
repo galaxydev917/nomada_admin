@@ -33,12 +33,12 @@
                   <a href="{{ url('menu') }}" class="list-group-item list-group-item-action bg-light">Menu</a>
                   <a href="{{ url('order') }}" class="list-group-item list-group-item-action bg-light">order</a>
                   <a href="{{ url('chat') }}" class="list-group-item list-group-item-action bg-light">chat</a>
-                  {{-- <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-                  <a href="#" class="list-group-item list-group-item-action bg-light">Status</a> --}}
+                  <a href="{{ route('logout') }}" class="list-group-item list-group-item-action bg-light">Logout</a>
+                  {{-- <a href="#" class="list-group-item list-group-item-action bg-light">Status</a> --}}
                 </div>
               </div>
             @endif
-            <div id="page-content-wrapper">
+            <div id="page-content-wrapper" style="width: 100%; height: 100%;">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
@@ -92,7 +92,5 @@
             @yield('content')
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
 </body>
 </html>

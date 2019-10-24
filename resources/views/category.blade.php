@@ -46,8 +46,8 @@
         <tr>
         <td>{{$category['id']}}</td>
         <td>{{$category['title']}}</td>
-        <td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="{{$index}}">Update</button>
-         		 <a class="btn btn-danger" href="{{ url('menu/'.$index) }}" data-id="{{$index}}">Show Menu</a></td></td>
+        <td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="{{ $index }}">Update</button>
+         		 <a class="btn btn-danger" href="{{ url('menu/'.$index) }}" data-id="{{ $index }}">Show Menu</a></td></td>
         </tr>
         @endforeach
         </tbody>
@@ -182,6 +182,7 @@
     });
     $('.updateCustomer').on('click', function () {
         var values = $(".users-update-record-model").serializeArray();
+        updateID = $(this).attr('data-id');
         var postData = {
             id: values[0].value,
             title: values[1].value,
