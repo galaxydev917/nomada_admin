@@ -174,7 +174,7 @@
             uploadTask.snapshot.ref.getDownloadURL().then(function (downlaodURL) {
                 //get your upload image url here...
                 console.log(downlaodURL);
-                firebase.database().ref('menu').set({
+                firebase.database().ref('menu').push({
                     name: name,
                     category: category,
                     description: description,
