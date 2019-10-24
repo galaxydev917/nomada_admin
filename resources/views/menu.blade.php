@@ -142,16 +142,16 @@
     });
     // Add Data
     $('#submitCustomer').on('click', function () {
-        var values = $("#addCustomer").serializeArray();
-        if(values[0].value && values[1].value && values[2].value && values[3].value){
-            $('#gif').css('visibility', 'visible');
-        }
+        var values = $("#addCustomer").serializeArray();        
         var name = values[0].value;
         var description = values[1].value;
         var price = values[2].value;
-        var category = (values[3].value) ? values[3].value :{{$id}}; 
-        var userID = lastIndex + 1;
+        var category = ((values[3].value) ? values[3].value :{{$id}}); 
+        var userID = lastIndex + 1;        
         var image=document.getElementById("image").files[0];
+        if(name != '' && description != '' && price != '' && image != ''){
+            $('#gif').css('visibility', 'visible');
+        }
         //now get your image name
         var imageName=image.name;
         //firebase  storage reference
