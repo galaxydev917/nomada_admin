@@ -143,7 +143,9 @@
     // Add Data
     $('#submitCustomer').on('click', function () {
         var values = $("#addCustomer").serializeArray();
-        $('#gif').css('visibility', 'visible');
+        if(values){
+            $('#gif').css('visibility', 'visible');
+        }
         var name = values[0].value;
         var description = values[1].value;
         var price = values[2].value;
