@@ -149,7 +149,7 @@
         var name = values[0].value;
         var description = values[1].value;
         var price = values[2].value;
-        var category = ((values[3].value) ? values[3].value :{{$id}}); 
+        var category = ((values[3].value) ? values[3].value :'{{$id}}'); 
         var userID = lastIndex + 1;        
         var image=document.getElementById("image").files[0];        
 
