@@ -1,12 +1,15 @@
-@extends('layouts.login')
+@extends('adminlte::page')
+
+@section('title', 'Category')
+
+@section('content_header')
+
+    <h1>List of Categories</h1>
+
+@stop
 
 @section('content')
-
-<div class="container-fluid" style="margin-top: 50px;">
-
-    <h4 class="text-center">Nomada Menu</h4><br>
-
-    <!-- <h5># Add Menu</h5> -->
+        <!-- <h5># Add Menu</h5> -->
     <!-- <div class="card card-default">
         <div class="card-body">
             <form id="addCustomer" class="form-inline" method="POST" action="">
@@ -46,17 +49,16 @@
         <tr>
         <td>{{$category['id']}}</td>
         <td>{{$category['title']}}</td>
-        <td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="{{ $index }}">Update</button>
-         		 <a class="btn btn-danger" href="{{ url('menu/'.$index) }}" data-id="{{ $index }}">Show Menu</a></td></td>
+        <td><button data-toggle="modal" data-target="#update-modal-cat" class="btn btn-info updateCatgory" data-id="{{ $index }}">Update</button>
+         		 <a class="btn btn-success" href="{{ url('menu/'.$index) }}" data-id="{{ $index }}">Show Menu</a></td></td>
         </tr>
         @endforeach
         </tbody>
     </table>
-</div>
-
+    
 <!-- Update Model -->
-<form action="" method="POST" class="users-update-record-model form-horizontal">
-    <div id="update-modal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel"
+<form action="" method="POST" class="category-update-record-model form-horizontal">
+    <div id="update-modal-cat" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" style="width:55%;">
             <div class="modal-content" style="overflow: hidden;">
@@ -66,14 +68,14 @@
                             aria-hidden="true">×
                     </button>
                 </div>
-                <div class="modal-body" id="updateBody">
+                <div class="modal-body" id="updateCatBody">
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-light"
                             data-dismiss="modal">Close
                     </button>
-                    <button type="button" class="btn btn-success updateCustomer">Update
+                    <button type="button" class="btn btn-success updateCategory">Update
                     </button>
                 </div>
             </div>
@@ -133,7 +135,7 @@
     //             htmls.push('<tr>\
     //     		<td>' + value.id + '</td>\
     //             <td>' + value.title + '</td>\
-    //     		<td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="' + index + '">Update</button>\
+    //     		<td><button data-toggle="modal" data-target="#update-modal-cat" class="btn btn-info updateCatgory" data-id="' + index + '">Update</button>\
     //     		 <button class="btn btn-danger" href="http://localhost:8000/menu/' + index + '" data-id="' + index + '">Show Menu</button></td>\
     //     	</tr>');
     //         }
@@ -143,54 +145,57 @@
     //     $("#submitUser").removeClass('desabled');
     // });
     // Add Data
-    $('#submitCustomer').on('click', function () {
-        var values = $("#addCustomer").serializeArray();
-        var id = values[0].value;
-        var title = values[1].value;
-        var userID = lastIndex + 1;
-        console.log(values);
-        firebase.database().ref('category/' + userID).set({
-            name: name,
-            category: category,
-            description: description,
-            price: price
-        });
-        // Reassign lastID value
-        lastIndex = userID;
-        $("#addCustomer input").val("");
-    });
+    // $('#submitCustomer').on('click', function () {
+    //     var values = $("#addCustomer").serializeArray();
+    //     var id = values[0].value;
+    //     var title = values[1].value;
+    //     var userID = lastIndex + 1;
+    //     console.log(values);
+    //     firebase.database().ref('category/' + userID).set({
+    //         name: name,
+    //         category: category,
+    //         description: description,
+    //         price: price
+    //     });
+    //     // Reassign lastID value
+    //     lastIndex = userID;
+    //     $("#addCustomer input").val("");
+    // });
     // Update Data
     var updateID = 0;
-    $('body').on('click', '.updateData', function () {
+    $('body').on('click', '.updateCatgory', function () {
         updateID = $(this).attr('data-id');
         firebase.database().ref('category/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
-            var updateData = '<div class="form-group">\
+            var updateData_category = '<div class="form-group">\
+                <input type="hidden" id="Cat_id" value="'+ updateID+'">\
 		        <label for="first_name" class="col-md-12 col-form-label">Name</label>\
 		        <div class="col-md-12">\
-		            <input id="first_name" type="text" class="form-control" name="fullName" value="' + values.id + '" required autofocus>\
+		            <input id="first_name" type="text" class="form-control" name="id" value="' + values.id + '" required autofocus>\
 		        </div>\
 		    </div>\
 		    <div class="form-group">\
 		        <label for="category" class="col-md-12 col-form-label">Category</label>\
 		        <div class="col-md-12">\
-		            <input id="category" type="text" class="form-control" name="category" value="' + values.title + '" required autofocus>\
+		            <input id="category" type="text" class="form-control" name="title" value="' + values.title + '" required autofocus>\
 		        </div>\
 		    </div>';
-            $('#updateBody').html(updateData);
+            $('#updateCatBody').html(updateData_category);
         });
     });
-    $('.updateCustomer').on('click', function () {
-        var values = $(".users-update-record-model").serializeArray();
-        updateID = $(this).attr('data-id');
+    $('.updateCategory').on('click', function () {
+        var values = $(".category-update-record-model").serializeArray();
+        var CatupdateID = $('#Cat_id').val();
         var postData = {
             id: values[0].value,
             title: values[1].value,
         };
         var updates = {};
-        updates['/category/' + updateID] = postData;
+        console.log(updates);
+        updates['/category/' + CatupdateID] = postData;
         firebase.database().ref().update(updates);
-        $("#update-modal").modal('hide');
+        location.reload();
+        $("#update-modal-cat").modal('hide');
     });
     // Remove Data
     $("body").on('click', '.removeData', function () {
@@ -211,4 +216,4 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-@endsection
+@stop

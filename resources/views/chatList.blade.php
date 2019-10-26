@@ -1,42 +1,55 @@
-@extends('layouts.login')
+@extends('adminlte::page')
+
+@section('title', 'chat')
+
+@section('content_header')
+
+    <h1>Chat conversation</h1>
+    <!-- <link href="{{ asset('css/style.css') }}" rel="stylesheet" /> -->
+@stop
 
 @section('content')
-    <div class="container-fluid bg-wight chatbox rounded">
-        <div class="row h-100">
-            <div class="col-md-4 pr-0">
-                <div class="card">
-                    <div class="card-header">
-                            <div class="col-md-7">
-                            </div>
-                            <div class="col-md-5">
-                                </div>
-                        <ul class="list-group list-group-flush" id="listItemChat">
-                                                    
-                        </ul>
-                    </div>
+        <div class="row">
+            <div class="col-md-4 col-4 col-sm-3">
+                <div class="" style="position:relative; height: 80vh; cursor:pointer; backgroung:#222d32; overflow-x: auto;
+    overflow-y: auto;">
+                    <ul class="contacts-list" id="listItemChat">
+                                                
+                    </ul>
                 </div>
             </div>
             <div class="col-md-8 pl-0">
-                <div id="chatPanel" class="card" style="display: none;">
-                    <div class="card-header">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-6">
-                                    <div id="chat_user" class="name"></div>
-                                    <div class="under-name"></div>
-                            </div>
-                            <div class="col-md-4"></div>
+                <div id="chatPanel" style="display: none;">
+                    <div class="box box-success direct-chat direct-chat-success">
+                    <div class="box-header with-border">
+                    <h3 class="box-title">Direct Chat</h3>
+
+                    <div class="box-tools pull-right">
+                        <!-- <span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="3 New Messages">3</span> -->
+                        <!-- <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="" data-widget="chat-pane-toggle" data-original-title="Contacts">
+                        <i class="fa fa-comments"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>
+                        </button> -->
                     </div>
-                    <div class="card-body" id="messagesList">
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                    <!-- Conversations are loaded here -->
+                    <div class="direct-chat-messages" id="messagesList" style="height: 60vh;">
                         
                     </div>
-                    <div class="card-footer">
-                        <div class="col-md-1"></div>
-                        <div class="col-md-9">
+
+                    </div>
+                    </div>
+                    <div class="box-footer">
+                        <div class="input-group">
                             <input id="textMessage" type="text" placeholder="Type here" class="form-control form-rounded">
-                        </div>
-                        <div class="col-md-2">
-                            <button type="submit" onclick="sendMessage()" class="btn btn-primary">send</button>
-                        </div>
+                            <span class="input-group-btn">
+                            <button type="button" onclick="sendMessage()" class="btn btn-success btn-flat">Send</button>
+                          </span>
+                        </div>                        
                     </div>
                 </div>
                 <div id="divStart" class="text-center">
@@ -45,7 +58,6 @@
                 </div>
             </div>
         <div>
-    </div>
 {{-- <div class="container" style="margin-top: 50px;">
 
     <h4 class="text-center">Converation list</h4><br>
@@ -93,13 +105,9 @@
                 htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+')">\
                             <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
                             <input type="hidden" id="key_name_'+ i+'" value="'+value.fullName+'" >\
-                            <div class="row">\
-                                <div class="col-md-2">\
-                                </div>\
-                                <div class="col-md-10" style="cursor: pointer;">\
-                                    <div class="name">'+value.fullName+'</div>\
-                                    <div class="under-name">'+value.email+'</div>\
-                                </div>\
+                            <div class="contacts-list-info">\
+                                <span class="contacts-list-name" style="color:#999;">'+value.fullName+'</span>\
+                                <span class="contacts-list-msg">'+value.email+'</span>\
                             </div>\
                         </li>');
             }
@@ -110,15 +118,16 @@
         $("#submitUser").removeClass('desabled');
     });  
     function LoadChatMessages(val) { 
+        jQuery($('.list-group-item')).removeClass('active');
         if(val != "welcome"){ 
         var key = document.getElementById('key_val_'+val).value; 
         var name = document.getElementById('key_name_'+val).value; 
-        document.getElementById('chat_user').innerHTML = '<h2>'+name+'</h2>';  
+        //document.getElementById('chat_user').innerHTML = '<h2>'+name+'</h2>';  
         }
         document.getElementById('chatPanel').removeAttribute('style');
         document.getElementById('divStart').setAttribute('style', 'display: none'); 
         currKey = key; 
-        currName = name;       
+        currName = name;   
         firebase.database().ref('messages/'+key).on('value', function(snapshot) {;
                 var value = snapshot.val();      
                 var msgList = [];  
@@ -128,25 +137,21 @@
                     var dateString = theDate.toLocaleDateString() +' '+ theDate.toLocaleTimeString();
                     if (value) {
                     if(value.sendBy === "User") {
-                        msgList.push('<div class="row">\
-                            <div class="col-2 col-sm-1 col-md-1">\
-                            </div>\
-                            <div class="col-6 col-sm-7 col-md-7">\
-                                <p class="receive">'+ value.message + '\
-                                    <span class="time float-right">'+ dateString +'</span>\
-                                </p>\
-                            </div>\
-                        </div>');                        
+                        msgList.push('<div class="direct-chat-msg">\
+                      <div class="direct-chat-info clearfix">\
+                        <span class="direct-chat-name pull-left">'+ value.userName +'</span>\
+                        <span class="direct-chat-timestamp pull-right">'+ dateString +'</span>\
+                      </div>\
+                      <div class="direct-chat-text">'+ value.message +'</div>\
+                    </div>');                        
                     } else {
-                        msgList.push('<div class="row justify-content-end">\
-                            <div class="col-6 col-sm-7 col-md-7">\
-                                <p class="sent float-right">'+ value.message + '\
-                                    <span class="time float-right">'+ dateString +'</span>\
-                                </p>\
-                            </div>\
-                            <div class="col-2 col-sm-1 col-md-1">\
-                            </div>\
-                            </div>');
+                        msgList.push('<div class="direct-chat-msg right">\
+                      <div class="direct-chat-info clearfix">\
+                        <span class="direct-chat-name pull-right">Admin</span>\
+                        <span class="direct-chat-timestamp pull-left">'+ dateString +'</span>\
+                      </div>\
+                      <div class="direct-chat-text">'+ value.message + '</div>\
+                    </div>');
                     }
                 } 
                 });
@@ -159,6 +164,8 @@
                             </div>');
                 }
                 $('#messagesList').html(msgList);
+                //document.getElementById(currKey).addclass('active');
+                jQuery($('#'+currKey)).addClass('active');   
                 document.getElementById('messagesList').scrollTo(0, document.getElementById('messagesList').clientHeight);
             })            
     }  
@@ -172,10 +179,11 @@
                 userName: currName, 
                 msgStatus: false,           
                 createdAt: Date.now()
-            });
+            });            
             document.getElementById('textMessage').value = '';
             document.getElementById('textMessage').focus();
-            document.getElementById('messagesList').scrollTo(0, document.getElementById('messagesList').clientHeight);
+            $('#messagesList').html().fadeIn().delay(1000);
+            document.getElementById('messagesList').html().scrollTo(0, $('#messagesList')[0].scrollHeight);
         } else {
             alert("Please write something to send");
         }
@@ -263,4 +271,4 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-@endsection
+@stop

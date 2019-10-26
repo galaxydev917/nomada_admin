@@ -1,16 +1,20 @@
-@extends('layouts.login')
+@extends('adminlte::page')
+
+@section('title', 'menu')
+
+@section('content_header')
+
+    <h1>Menu List</h1>
+
+@stop
 
 @section('content')
 
-<div class="container" style="margin-top: 50px;">
-
-    <h4 class="text-center">Nomada Menu</h4><br>
 
     <h5># Add Menu</h5>
     <div class="card-default">
         <div class="card-body">
-            <img src="{{URL::asset('/images/spinner.gif')}}" id="gif" style="display: block; margin: 0 auto; width: 100px; visibility: hidden;">
-            <form id="addCustomer" class="form-inline" method="POST" action="" enctype="multipart/form-data">
+            <form id="addMenu" class="form-inline" method="POST" action="" enctype="multipart/form-data">
                 <div class="form-group bmd-form-group col-md-2">
                     <label class="bmd-label-floating"></label>
                     <input id="name" type="text" class="form-control" name="name" placeholder="Name"
@@ -31,7 +35,7 @@
                     <input type="file" id="image" accept="menu/*">
                 </div>
                 <input id="category" type="hidden" class="form-control" name="category" value ="{{$id}}">
-                <button id="submitCustomer" type="button" class="btn btn-primary col-md-2">Submit</button>
+                <button id="submitMenu" type="button" class="btn btn-primary col-md-2">Submit</button>
             </form>
         </div>
     </div>
@@ -49,38 +53,37 @@
 
         </tbody>
     </table>
-</div>
 
 <!-- Update Model -->
-<form action="" method="POST" class="users-update-record-model form-horizontal">
-    <div id="update-modal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="width:55%;">
-            <div class="modal-content" style="overflow: hidden;">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="custom-width-modalLabel">Update</h4>
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">×
-                    </button>
-                </div>
-                <div class="modal-body" id="updateBody">
+<div id="update-modal-menu" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel"
+        aria-hidden="true">
+    <form action="" method="POST" class="menu-update-record-model form-horizontal" enctype="multipart/form-data">
+    <div class="modal-dialog modal-dialog-centered" style="width:55%;">
+        <div class="modal-content" style="overflow: hidden;">
+            <div class="modal-header">
+                <h4 class="modal-title" id="custom-width-modalLabel">Update</h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-hidden="true">×
+                </button>
+            </div>
+            <div class="modal-body" id="updateMenuBody">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-light"
-                            data-dismiss="modal">Close
-                    </button>
-                    <button type="button" class="btn btn-success updateCustomer">Update
-                    </button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light"
+                        data-dismiss="modal">Close
+                </button>
+                <button type="button" class="btn btn-success updateMenu">Update
+                </button>
             </div>
         </div>
     </div>
-</form>
+    </form>
+</div>
 
 <!-- Delete Model -->
-<form action="" method="POST" class="users-remove-record-model">
-    <div id="remove-modal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel"
+<form action="" method="POST" class="menu-remove-record-model">
+    <div id="remove-modal" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel"
          aria-hidden="true" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" style="width:55%;">
             <div class="modal-content">
@@ -131,8 +134,8 @@
         		<td>' + value.name + '</td>\
                 <td>' + value.description + '</td>\
                 <td>' + value.price + '</td>\
-        		<td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="' + index + '">Update</button>\
-        		<button data-toggle="modal" data-target="#remove-modal" class="btn btn-danger removeData" data-id="' + index + '">Delete</button></td>\
+        		<td><button data-toggle="modal" data-target="#update-modal-menu" class="btn btn-info updateData_menu" data-id="' + index + '">Update</button>\
+        		<button data-toggle="modal" data-target="#remove-modal" class="btn btn-danger removeData_menu" data-id="' + index + '">Delete</button></td>\
         	</tr>');
             }
             lastIndex = index;
@@ -141,24 +144,21 @@
         $("#submitUser").removeClass('desabled');
     });
     // Add Data
-    $('#submitCustomer').on('click', function () {
-        var values = $("#addCustomer").serializeArray();        
+    $('#submitMenu').on('click', function () {
+        var values = $("#addMenu").serializeArray();        
         var name = values[0].value;
         var description = values[1].value;
         var price = values[2].value;
         var category = ((values[3].value) ? values[3].value :{{$id}}); 
         var userID = lastIndex + 1;        
-        var image=document.getElementById("image").files[0];
-        if(name != '' && description != '' && price != '' && image != ''){
-            $('#gif').css('visibility', 'visible');
-        }
+        var image=document.getElementById("image").files[0];        
+
         //now get your image name
         var imageName=image.name;
         //firebase  storage reference
         //it is the path where yyour image will store
         var storageRef=firebase.storage().ref('menu/'+imageName);
         //upload image to selected storage reference
-
         var uploadTask=storageRef.put(image);
 
         uploadTask.on('state_changed',function (snapshot) {
@@ -190,16 +190,17 @@
         });               
         // Reassign lastID value
         lastIndex = userID;
-        $("#addCustomer input").val("");
+        $("#addMenu input").val("");
         $("#description").val("");
     });
     // Update Data
     var updateID = 0;
-    $('body').on('click', '.updateData', function () {
+    $('body').on('click', '.updateData_menu', function () {
         updateID = $(this).attr('data-id');
         firebase.database().ref('menu/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
-            var updateData = '<div class="form-group">\
+            var updateData_menu_data = '<div class="form-group">\
+                <input type="hidden" id="Menu_id" value="'+ updateID+'">\
 		        <label for="name" class="col-md-12 col-form-label">Name</label>\
 		        <div class="col-md-12">\
 		            <input id="name" type="text" class="form-control" name="name" value="' + values.name + '" required autofocus>\
@@ -217,40 +218,42 @@
 		            <input id="price" type="text" class="form-control" name="price" value="' + values.price + '" required autofocus>\
 		        </div>\
 		    </div>\
+            <input id="category" type="hidden" class="form-control" name="category" value="' + values.category + '">\
             <div class="form-group">\
-		        <label for="pic" class="col-md-12 col-form-label">Picture</label>\
+		        <label for="image" class="col-md-12 col-form-label">Picture</label>\
 		        <div class="col-md-12">\
-		            <input id="image" type="file" class="form-control" name="pic"><img src="' + values.image + '" width=100 height=100>\
+                <input type="hidden" name="image" value="' + values.image + '">\
+                <input type="file" id="uploadImage" accept="menu/*"><img id="selected_img" src="' + values.image + '" width=100 height=100>\
 		        </div>\
-		    </div>\
-            <input id="category" type="hidden" class="form-control" name="category" value="' + values.category + '">';
-            $('#updateBody').html(updateData);
+		    </div>';
+            $('#updateMenuBody').html(updateData_menu_data);
         });
     });
-    $('.updateCustomer').on('click', function () {
-        var values = $(".users-update-record-model").serializeArray(); 
-        updateID = $(this).attr('data-id');       
+    $('.updateMenu').on('click', function () {
+        var values = $(".menu-update-record-model").serializeArray(); 
+        console.log(values);
+        var MenuID = $('#Menu_id').val();
+        var img = $('#selected_img').val();       
         var postData = {
             name: values[0].value,
             description: values[1].value,
             price: values[2].value,
-            category: values[4].value,
+            category: values[3].value,
             available: true,
-            image: values[3].value,
+            image: ((values[4].value) ? values[4].value : ''),            
             };
         var updates = {};
-        updates['/menu/' + updateID] = postData;
+        updates['/menu/' + MenuID] = postData;
         firebase.database().ref().update(updates);
-        var image=document.getElementById("image").files[0];
+        var uploadImage=document.getElementById("uploadImage").files[0];
+        if(uploadImage){
         //now get your image name
-        var imageName=image.name;
+        var imageName=uploadImage.name;
         //firebase  storage reference
         //it is the path where yyour image will store
         var storageRef=firebase.storage().ref('menu/'+imageName);
         //upload image to selected storage reference
-
-        var uploadTask=storageRef.put(image);
-
+        var uploadTask=storageRef.put(uploadImage);
         uploadTask.on('state_changed',function (snapshot) {
             //observe state change events such as progress , pause ,resume
             //get task progress by including the number of bytes uploaded and total
@@ -270,34 +273,38 @@
                     name: values[0].value,
                     description: values[1].value,
                     price: values[2].value,
-                    category: values[4].value,
+                    category: values[3].value,
                     available: true,
-                    image: downlaodURL,
+                    image: downlaodURL
                     };
                 var updates = {};
-                updates['/menu/' + updateID] = postData;
+                updates['/menu/' + MenuID] = postData;
                 firebase.database().ref().update(updates);
             });
-        });    
-        $("#update-modal").modal('hide');
+        });  
+        }  
+        $("[data-dismiss=modal]").trigger({ type: "click" });
+        // location.reload();
+        $("#update-modal-menu").modal('hide');
     });
     // Remove Data
-    $("body").on('click', '.removeData', function () {
+    $("body").on('click', '.removeData_menu', function () {
         var id = $(this).attr('data-id');
-        $('body').find('.users-remove-record-model').append('<input name="id" type="hidden" value="' + id + '">');
+        $('body').find('.menu-remove-record-model').append('<input name="id" type="hidden" value="' + id + '">');
     });
     $('.deleteRecord').on('click', function () {
-        var values = $(".users-remove-record-model").serializeArray();
+        var values = $(".menu-remove-record-model").serializeArray();
         var id = values[0].value;
         firebase.database().ref('menu/' + id).remove();
-        $('body').find('.users-remove-record-model').find("input").remove();
+        location.reload();
+        $('body').find('.menu-remove-record-model').find("input").remove();
         $("#remove-modal").modal('hide');
     });
     $('.remove-data-from-delete-form').click(function () {
-        $('body').find('.users-remove-record-model').find("input").remove();
+        $('body').find('.menu-remove-record-model').find("input").remove();
     });
 </script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-@endsection
+@stop

@@ -1,10 +1,14 @@
-@extends('layouts.login')
+@extends('adminlte::page')
+
+@section('title', 'order')
+
+@section('content_header')
+
+    <h1>Order List</h1>
+
+@stop
 
 @section('content')
-
-<div class="container" style="margin-top: 50px;">
-
-    <h4 class="text-center">Nomada Menu</h4><br>
     <table class="table table-bordered">
         <tr>
             <th>Name</th>
@@ -96,11 +100,13 @@
         var htmls = [];
         $.each(value, function (index, value) {
             if (value) {
+                var theDate = new Date(value.orderTime);
+                var dateString = theDate.toLocaleDateString() +' '+ theDate.toLocaleTimeString();
                 htmls.push('<tr>\
         		<td>' + value.name + '</td>\
                 <td>' + value.phone + '</td>\
                 <td>' + value.totalPrice + '</td>\
-                <td>' + value.orderDate + '</td>\
+                <td>' + dateString + '</td>\
                 <td>' + value.PurchaseStatus + '</td>\
         		<td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="' + index + '">Update Status</button>\
         	</tr>');
@@ -134,7 +140,7 @@
         updates['/orders/' + updateID] = postData;
         firebase.database().ref('orders/' + updateID).update(postData);
         $("#update-modal").modal('hide');
-        $(".modal-backdrop").addClass('hide');
+        $("[data-dismiss=modal]").trigger({ type: "click" });
     });
     // Remove Data
     $("body").on('click', '.removeData', function () {
@@ -155,4 +161,4 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-@endsection
+@stop
