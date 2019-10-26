@@ -102,6 +102,7 @@
         // }
         $.each(value, function (index, value) {
             if (value) {
+               console.log(userNameRef);
                 htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+')">\
                             <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
                             <input type="hidden" id="key_name_'+ i+'" value="'+value.fullName+'" >\

@@ -24,16 +24,16 @@ class FirebaseController extends Controller
 
         $database = $firebase->getDatabase();
 
-        $newPost = $database
-        ->getReference('menu')
-        ->push([        
-            'available' => 'true',
-            'category' => '-Lr-jwx26whP1bRgZX_v',
-            'description' => 'The Course Title Here third item',
-            'name' => 'Second Course',
-            'image' => 'assets/images/main-course.jpg',
-            'price' => '8'
-        ]);
+        // $newPost = $database
+        // ->getReference('menu')
+        // ->push([        
+        //     'available' => 'true',
+        //     'category' => '-Lr-jwx26whP1bRgZX_v',
+        //     'description' => 'The Course Title Here third item',
+        //     'name' => 'Second Course',
+        //     'image' => 'assets/images/main-course.jpg',
+        //     'price' => '8'
+        // ]);
         echo '<pre>';
         print_r($newPost->getvalue());
     }
