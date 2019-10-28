@@ -1,46 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'menu')
+@section('title', 'menu_list')
 
 @section('content_header')
 
-    <h1>Menu List</h1>
+    <h1>List of Menu</h1>
 
 @stop
 
 @section('content')
-
-
-    <h5># Add Menu</h5>
-    <div class="card-default">
-        <div class="card-body">
-            <form id="addMenu" class="form-inline" method="POST" action="" enctype="multipart/form-data">
-                <div class="form-group bmd-form-group col-md-2">
-                    <label class="bmd-label-floating"></label>
-                    <input id="name" type="text" class="form-control" name="name" placeholder="Name"
-                           required autofocus>
-                </div>
-                <div class="form-group bmd-form-group mx-sm-3 col-md-2">
-                    <label class="bmd-label-floating"></label>
-                    <textarea id="description" type="text" class="form-control" name="description" placeholder="desciption"
-                           required autofocus></textarea>
-                </div>
-                <div class="form-group bmd-form-group mx-sm-3 col-md-2">
-                    <label class="bmd-label-floating"></label>
-                    <input id="price" type="text" class="form-control" name="price" placeholder="price"
-                           required autofocus>
-                </div>
-                <div class="form-group bmd-form-group mx-sm-3 col-md-2">
-                    <label class="bmd-label-floating">Picture</label>
-                    <input type="file" id="image" accept="menu/*">
-                </div>
-                <input id="category" type="hidden" class="form-control" name="category" value ="{{$id}}">
-                <button id="submitMenu" type="button" class="btn btn-primary col-md-2">Submit</button>
-            </form>
-        </div>
-    </div>
-
-    <br>
 
     <table class="table table-bordered">
         <tr>
@@ -125,7 +93,7 @@
     var lastIndex = 0;
     var title = '';
     // Get Data
-    firebase.database().ref('menu/').orderByChild('category').equalTo('{{$id}}').on('value', function (snapshot) {
+    firebase.database().ref('menu/').on('value', function (snapshot) {
         var value = snapshot.val();
         var htmls = [];
         $.each(value, function (index, value) {
@@ -143,56 +111,7 @@
         $('#tbody').html(htmls);
         $("#submitUser").removeClass('desabled');
     });
-    // Add Data
-    $('#submitMenu').on('click', function () {
-        var values = $("#addMenu").serializeArray();        
-        var name = values[0].value;
-        var description = values[1].value;
-        var price = values[2].value;
-        var category = ((values[3].value) ? values[3].value :'{{$id}}'); 
-        var userID = lastIndex + 1;        
-        var image=document.getElementById("image").files[0];        
-
-        //now get your image name
-        var imageName=image.name;
-        //firebase  storage reference
-        //it is the path where yyour image will store
-        var storageRef=firebase.storage().ref('menu/'+imageName);
-        //upload image to selected storage reference
-        var uploadTask=storageRef.put(image);
-
-        uploadTask.on('state_changed',function (snapshot) {
-            //observe state change events such as progress , pause ,resume
-            //get task progress by including the number of bytes uploaded and total
-            //number of bytes
-            var progress=(snapshot.bytesTransferred/snapshot.totalBytes)*100;
-            console.log("upload is " + progress +" done");
-        },function (error) {
-            //handle error here
-            console.log(error.message);
-        },function () {
-        //handle successful uploads on complete
-
-            uploadTask.snapshot.ref.getDownloadURL().then(function (downlaodURL) {
-                //get your upload image url here...
-                console.log(downlaodURL);
-                firebase.database().ref('menu').push({
-                    name: name,
-                    category: category,
-                    description: description,
-                    price: price,
-                    available: true,
-                    category: category,
-                    image: downlaodURL
-                });
-                $('#gif').css('visibility', 'hidden');
-            });
-        });               
-        // Reassign lastID value
-        lastIndex = userID;
-        $("#addMenu input").val("");
-        $("#description").val("");
-    });
+   
     // Update Data
     var updateID = 0;
     $('body').on('click', '.updateData_menu', function () {

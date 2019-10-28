@@ -14,7 +14,9 @@ Route::group(['middleware' => ['web']], function() {
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/firebase','FirebaseController@index');
 Route::get('menu/{id}', 'menuController@index');
-Route::get('menu', 'menuController@category');
+Route::get('category', 'menuController@category');
+Route::get('menulist', 'menuController@listMenu');
+Route::get('user', 'menuController@users');
 Route::get('order', 'menuController@order');
 Route::get('chat', 'menuController@chat');
 Route::get('conversation/{id}', 'menuController@conversation');

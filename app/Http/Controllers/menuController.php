@@ -41,6 +41,39 @@ class menuController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function listMenu()
+    {       
+        return view('menuList');
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function users()
+    {
+        // $serviceAccount = ServiceAccount::fromJsonFile(__DIR__.'/nomada.json');
+        // $firebase = (new Factory)
+        // ->withServiceAccount($serviceAccount)
+        // ->withDatabaseUri('https://nomada-7f903.firebaseio.com')
+        // ->create();
+
+        // $database = $firebase->getDatabase();
+
+        // $users = $database->getReference('users')->getvalue();
+        // foreach ($categories as $category) {
+        //     print_r($category);
+        //     //$menu = $database->getReference('menu/'.$category->category)
+        // }
+        return view('users');
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index($id)
     {
         return view('menu', compact('id'));

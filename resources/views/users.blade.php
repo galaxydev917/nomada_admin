@@ -1,12 +1,16 @@
-@extends('layouts.app')
+@extends('adminlte::page')
+
+@section('title', 'users')
+
+@section('content_header')
+
+    <h1>List of Users</h1>
+
+@stop
 
 @section('content')
 
-<div class="container" style="margin-top: 50px;">
-
-    <h4 class="text-center">Laravel RealTime CRUD Using Google Firebase</h4><br>
-
-    <h5># Add Customer</h5>
+    {{-- <h5># Add Customer</h5>
     <div class="card card-default">
         <div class="card-body">
             <form id="addCustomer" class="form-inline" method="POST" action="">
@@ -23,15 +27,14 @@
                 <button id="submitCustomer" type="button" class="btn btn-primary mb-2">Submit</button>
             </form>
         </div>
-    </div>
-
-    <br>
+    </div> --}}
 
     <h5># Customers</h5>
     <table class="table table-bordered">
         <tr>
             <th>Name</th>
             <th>Email</th>
+            <th>Phone</th>
             <th width="180" class="text-center">Action</th>
         </tr>
         <tbody id="tbody">
@@ -96,17 +99,17 @@
 
 
 {{--Firebase Tasks--}}
-<script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
-<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script> --}}
 <script>
     // Initialize Firebase
-    var config = {
-        apiKey: "{{ config('services.firebase.api_key') }}",
-        authDomain: "{{ config('services.firebase.auth_domain') }}",
-        databaseURL: "{{ config('services.firebase.database_url') }}",
-        storageBucket: "{{ config('services.firebase.storage_bucket') }}",
-    };
-    firebase.initializeApp(config);
+    // var config = {
+    //     apiKey: "{{ config('services.firebase.api_key') }}",
+    //     authDomain: "{{ config('services.firebase.auth_domain') }}",
+    //     databaseURL: "{{ config('services.firebase.database_url') }}",
+    //     storageBucket: "{{ config('services.firebase.storage_bucket') }}",
+    // };
+    // firebase.initializeApp(config);
     var database = firebase.database();
     var lastIndex = 0;
     // Get Data
@@ -117,9 +120,10 @@
             if (value) {
                 htmls.push('<tr>\
         		<td>' + value.fullName + '</td>\
-        		<td>' + value.email + '</td>\
+                <td>' + value.email + '</td>\
+                <td>' + ((value.telephone) ? value.telephone: "") + '</td>\
         		<td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="' + index + '">Update</button>\
-        		<button data-toggle="modal" data-target="#remove-modal" class="btn btn-danger removeData" data-id="' + index + '">Delete</button></td>\
+        		<!--<button data-toggle="modal" data-target="#remove-modal" class="btn btn-danger removeData" data-id="' + index + '">Delete</button></td> -->\
         	</tr>');
             }
             lastIndex = index;
@@ -132,11 +136,13 @@
         var values = $("#addCustomer").serializeArray();
         var name = values[0].value;
         var email = values[1].value;
+        var telephone = values[2].value;
         var userID = lastIndex + 1;
         console.log(values);
         firebase.database().ref('users/' + userID).set({
             fullName: name,
             email: email,
+            telephone: telephone,
         });
         // Reassign lastID value
         lastIndex = userID;
@@ -159,6 +165,12 @@
 		        <div class="col-md-12">\
 		            <input id="last_name" type="text" class="form-control" name="email" value="' + values.email + '" required autofocus>\
 		        </div>\
+            </div>\
+            <div class="form-group">\
+		        <label for="phone" class="col-md-12 col-form-label">Phone</label>\
+		        <div class="col-md-12">\
+		            <input id="telephone" type="text" class="form-control" name="telephone" value="' + values.telephone + '" required autofocus>\
+		        </div>\
 		    </div>';
             $('#updateBody').html(updateData);
         });
@@ -168,11 +180,13 @@
         var postData = {
             fullName: values[0].value,
             email: values[1].value,
+            telephone: values[2].value,
         };
         var updates = {};
         updates['/users/' + updateID] = postData;
         firebase.database().ref().update(updates);
         $("#update-modal").modal('hide');
+        $("[data-dismiss=modal]").trigger({ type: "click" });
     });
     // Remove Data
     $("body").on('click', '.removeData', function () {
@@ -193,4 +207,4 @@
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
-@endsection
+@stop

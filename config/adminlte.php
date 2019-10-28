@@ -144,14 +144,24 @@ return [
             'icon'        => 'far fa-file'                        
         ],
         [
-            'text'        => 'Categories',
-            'url'         => 'menu',
+            'text'        => 'Category',
+            'url'         => 'category',
             'icon'        => 'far fa-file'                        
         ],
         [
-            'text'        => 'Orders',
+            'text'        => 'Menu',
+            'url'         => 'menulist',
+            'icon'        => 'far fa-file'                        
+        ],
+        [
+            'text'        => 'Order',
             'url'         => 'order',
             'icon'        => 'far fa-file'            
+        ],
+        [
+            'text'        => 'User',
+            'url'         => 'user',
+            'icon'        => 'far fa-file'                        
         ],
         [
             'text'        => 'Conversation',
