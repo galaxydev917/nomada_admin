@@ -81,7 +81,7 @@
 <script src="https://code.jquery.com/jquery-3.4.0.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
 <script>
-    Initialize Firebase
+    //Initialize Firebase
     var config = {
         apiKey: "{{ config('services.firebase.api_key') }}",
         authDomain: "{{ config('services.firebase.auth_domain') }}",
