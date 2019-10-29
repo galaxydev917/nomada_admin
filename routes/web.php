@@ -13,7 +13,7 @@
 Route::group(['middleware' => ['web']], function() {
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/firebase','FirebaseController@index');
-Route::get('menu/{id}', 'menuController@index');
+Route::get('category/{id}', 'menuController@index');
 Route::get('category', 'menuController@category');
 Route::get('menulist', 'menuController@listMenu');
 Route::get('user', 'menuController@users');

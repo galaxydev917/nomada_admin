@@ -50,7 +50,7 @@
         <td>{{$category['id']}}</td>
         <td>{{$category['title']}}</td>
         <td><button data-toggle="modal" data-target="#update-modal-cat" class="btn btn-info updateCatgory" data-id="{{ $index }}">Update</button>
-         		 <a class="btn btn-success" href="{{ url('menu/'.$index) }}" data-id="{{ $index }}">Show Menu</a></td></td>
+         		 <a class="btn btn-success" href="{{ url('category/'.$index) }}" data-id="{{ $index }}">Show Menu</a></td></td>
         </tr>
         @endforeach
         </tbody>

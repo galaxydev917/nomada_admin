@@ -15,27 +15,29 @@
     <div class="card-default">
         <div class="card-body">
             <form id="addMenu" class="form-inline" method="POST" action="" enctype="multipart/form-data">
-                <div class="form-group bmd-form-group col-md-2">
+                <div class="form-group col-md-2">
                     <label class="bmd-label-floating"></label>
                     <input id="name" type="text" class="form-control" name="name" placeholder="Name"
                            required autofocus>
                 </div>
-                <div class="form-group bmd-form-group mx-sm-3 col-md-2">
+                <div class="form-group col-md-2">
                     <label class="bmd-label-floating"></label>
                     <textarea id="description" type="text" class="form-control" name="description" placeholder="desciption"
                            required autofocus></textarea>
                 </div>
-                <div class="form-group bmd-form-group mx-sm-3 col-md-2">
+                <div class="form-group col-md-2">
                     <label class="bmd-label-floating"></label>
                     <input id="price" type="text" class="form-control" name="price" placeholder="price"
                            required autofocus>
                 </div>
-                <div class="form-group bmd-form-group mx-sm-3 col-md-2">
+                <div class="form-group col-md-2">
                     <label class="bmd-label-floating">Picture</label>
                     <input type="file" id="image" accept="menu/*">
                 </div>
                 <input id="category" type="hidden" class="form-control" name="category" value ="{{$id}}">
-                <button id="submitMenu" type="button" class="btn btn-primary col-md-2">Submit</button>
+                <div class="form-group col-md-2">
+                    <button id="submitMenu" type="button" class="btn btn-primary">Submit</button>
+                </div>
             </form>
         </div>
     </div>
@@ -302,7 +304,8 @@
     });
     $('.remove-data-from-delete-form').click(function () {
         $('body').find('.menu-remove-record-model').find("input").remove();
-    });
+    });  
+    $('.sidebar-menu li:eq(2)').addClass('active');
 </script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
