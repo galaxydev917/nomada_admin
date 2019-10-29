@@ -107,7 +107,7 @@
                             <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
                             <input type="hidden" id="key_name_'+ i+'" value="'+value.fullName+'" >\
                             <div class="contacts-list-info">\
-                                <span class="contacts-list-name" style="color:#999;">'+value.fullName+' '+badge_msg+'</span>\
+                                <span class="contacts-list-name" style="color:#999;">'+value.fullName+'</span>\
                                 <span class="contacts-list-msg">'+value.email+'</span>\
                             </div>\
                         </li>');
