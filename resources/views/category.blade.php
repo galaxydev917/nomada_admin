@@ -37,7 +37,8 @@
             </form>
         </div>
     </div> -->
-
+    <div class="box">
+<div class="box-body">
     <table class="table table-bordered">
         <tr>
             <th>Id</th>
@@ -55,7 +56,8 @@
         @endforeach
         </tbody>
     </table>
-    
+</div> 
+</div>
 <!-- Update Model -->
 <form action="" method="POST" class="category-update-record-model form-horizontal">
     <div id="update-modal-cat" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel"

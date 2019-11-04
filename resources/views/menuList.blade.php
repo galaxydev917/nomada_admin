@@ -9,7 +9,8 @@
 @stop
 
 @section('content')
-
+<div class="box">
+<div class="box-body">
     <table class="table table-bordered">
         <tr>
             <th>Name</th>
@@ -21,7 +22,8 @@
 
         </tbody>
     </table>
-
+</div>
+</div>
 <!-- Update Model -->
 <div id="update-modal-menu" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel"
         aria-hidden="true">

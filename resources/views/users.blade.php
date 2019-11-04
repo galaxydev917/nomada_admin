@@ -29,7 +29,8 @@
         </div>
     </div> --}}
 
-    <h5># Customers</h5>
+    <div class="box">
+<div class="box-body">
     <table class="table table-bordered">
         <tr>
             <th>Name</th>
@@ -42,7 +43,7 @@
         </tbody>
     </table>
 </div>
-
+</div>
 <!-- Update Model -->
 <form action="" method="POST" class="users-update-record-model form-horizontal">
     <div id="update-modal" data-backdrop="static" data-keyboard="false" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel"

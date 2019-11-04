@@ -22,6 +22,6 @@ Route::get('chat', 'menuController@chat');
 Route::get('conversation/{id}', 'menuController@conversation');
 
 Auth::routes(['register' => false]);
-
+Route::resource('employee', 'employeeController');
 Route::get('/home', 'HomeController@index')->name('home');
 });

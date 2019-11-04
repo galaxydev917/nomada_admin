@@ -11,39 +11,39 @@
 @section('content')
 
 
-    <h5># Add Menu</h5>
-    <div class="card-default">
-        <div class="card-body">
-            <form id="addMenu" class="form-inline" method="POST" action="" enctype="multipart/form-data">
-                <div class="form-group col-md-2">
-                    <label class="bmd-label-floating"></label>
-                    <input id="name" type="text" class="form-control" name="name" placeholder="Name"
-                           required autofocus>
-                </div>
-                <div class="form-group col-md-2">
-                    <label class="bmd-label-floating"></label>
-                    <textarea id="description" type="text" class="form-control" name="description" placeholder="desciption"
-                           required autofocus></textarea>
-                </div>
-                <div class="form-group col-md-2">
-                    <label class="bmd-label-floating"></label>
-                    <input id="price" type="text" class="form-control" name="price" placeholder="price"
-                           required autofocus>
-                </div>
-                <div class="form-group col-md-2">
-                    <label class="bmd-label-floating">Picture</label>
-                    <input type="file" id="image" accept="menu/*">
-                </div>
-                <input id="category" type="hidden" class="form-control" name="category" value ="{{$id}}">
-                <div class="form-group col-md-2">
-                    <button id="submitMenu" type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </form>
+    <div class="box box-success">
+        <div class="box-header with-border"><h3 class="box-title">Add Menu</h3></div>
+            <div class="box-body">
+                <form id="addMenu" class="form-inline" method="POST" action="" enctype="multipart/form-data">
+                    <div class="col-xs-2">
+                        <label class="bmd-label-floating">Name</label>
+                        <input id="name" type="text" class="form-control" name="name" placeholder="Name"
+                            required autofocus>
+                    </div>
+                    <div class="col-xs-2">
+                        <label class="bmd-label-floating">Description</label>
+                        <textarea id="description" type="text" class="form-control" name="description" placeholder="desciption"
+                            required autofocus></textarea>
+                    </div>
+                    <div class="col-xs-2">
+                        <label class="bmd-label-floating">Price</label>
+                        <input id="price" type="text" class="form-control" name="price" placeholder="price"
+                            required autofocus>
+                    </div>
+                    <div class="col-xs-2">
+                        <label class="bmd-label-floating">Picture</label>
+                        <input type="file" id="image" accept="menu/*">
+                    </div>
+                    <input id="category" type="hidden" class="form-control" name="category" value ="{{$id}}">
+                    <div class="col-xs-2">
+                        <button id="submitMenu" type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <br>
-
+    <div class="box">
+<div class="box-body">
     <table class="table table-bordered">
         <tr>
             <th>Name</th>
@@ -55,7 +55,8 @@
 
         </tbody>
     </table>
-
+</div>
+</div>
 <!-- Update Model -->
 <div id="update-modal-menu" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel"
         aria-hidden="true">
