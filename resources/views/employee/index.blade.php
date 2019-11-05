@@ -6,7 +6,7 @@
 
     <h1>Delivery Guy
     <small class="box-tools pull-right">
-    <button type="button" data-target="#insert-modal-employee" class="btn btn-success">Add New</button>
+    <button type="button" id="submitMenu" data-toggle="modal" data-target="#insert-modal-employee" class="btn btn-success insertData_employee">Add New</button>
     </small>
     </h1>
 @stop
@@ -31,70 +31,45 @@
 </div>
 </div>
 <!-- Insert new record Model -->
-<div id="insert-modal-employee" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="width:55%;">
+<form id="addMenu" method="POST" action="" class="employee-insert-record-model form-horizontal">
+<div id="insert-modal-employee" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">        
+    <div class="modal-dialog modal-dialog-centered" style="width:55%;">
         <div class="modal-content" style="overflow: hidden;">
             <div class="modal-header">
                 <h4 class="modal-title" id="custom-width-modalLabel">Add New Delivery Guy</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <div class="modal-body">
-            <form id="addMenu" role="form" method="POST" action="">
-                <div class="form-group">
-                    <label class="bmd-label-floating">Name</label>
-                    <input type="text" class="form-control" name="name" placeholder="Name" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label class="bmd-label-floating">Email</label>
-                    <input type="email" class="form-control" name="email" placeholder="Email" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label class="bmd-label-floating">Password</label>
-                    <input type="password" class="form-control" name="password" placeholder="Password" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label class="bmd-label-floating">Phone</label>
-                    <input type="number" class="form-control" name="phone" placeholder="Phone" required autofocus>
-                </div>
-                <div class="form-group">
-                    <label class="bmd-label-floating">Status</label>
-                    <input type="text" class="form-control" name="status" placeholder="Status" required autofocus>
-                </div>
-                <div class="modal-footer">
+            </div>            
+            <div class="modal-body" id="insertEmployeeBody">
+
+            </div>            
+            <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-                <button id="submitMenu" type="button" class="btn btn-success">Save</button>
+                <button type="button" class="btn btn-success insertEmployee">Save</button>
             </div>
-            </form>
         </div>
     </div>
-
 </div>
+</form>
 <!-- Update Model -->
-<div id="update-modal-employee" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel"
-        aria-hidden="true" tabindex="-1">
+<form action="" method="POST" class="employee-update-record-model form-horizontal">
+<div id="update-modal-employee" tabindex="-1" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered" style="width:55%;">
         <div class="modal-content" style="overflow: hidden;">
             <div class="modal-header">
                 <h4 class="modal-title" id="custom-width-modalLabel">Update</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            </div>
-            <form action="" method="POST" class="employee-update-record-model form-horizontal">
+            </div>            
             <div class="modal-body" id="updateEmployeeBody">
 
-            </div>
-            </form>
+            </div>            
             <div class="modal-footer">
-                <button type="button" class="btn btn-light"
-                        data-dismiss="modal">Close
-                </button>
-                <button type="button" class="btn btn-success updateEmployee">Update
-                </button>
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success updateEmployee">Update</button>
             </div>
         </div>
     </div>
 </div>
-
+</form>
 <!-- Delete Model -->
 <form action="" method="POST" class="menu-remove-record-model">
     <div id="remove-modal" data-backdrop="static" data-keyboard="false" class="modal fade" role="dialog" aria-labelledby="custom-width-modalLabel"
@@ -111,11 +86,8 @@
                     <p>Do you want to delete this record?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default waves-effect remove-data-from-delete-form"
-                            data-dismiss="modal">Close
-                    </button>
-                    <button type="button" class="btn btn-danger waves-effect waves-light deleteRecord">Delete
-                    </button>
+                    <button type="button" class="btn btn-default waves-effect remove-data-from-delete-form" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger waves-effect waves-light deleteRecord">Delete</button>
                 </div>
             </div>
         </div>
@@ -156,39 +128,86 @@
             lastIndex = index;
         });
         $('#tbody').html(htmls);
-        //$("#submitUser").removeClass('desabled');
+        $("#submitUser").removeClass('desabled');
     });
     // Add Data
-    $('#submitMenu').on('click', function () {
-        var values = $("#addMenu").serializeArray();        
+    $('.insertData_employee').on('click', function () {
+        var insertData_employee_data = '<div class="form-group">\
+		        <label for="name" class="col-md-12 col-form-label">Name</label>\
+		        <div class="col-md-12">\
+		            <input id="name" type="text" class="form-control" name="name" required autofocus>\
+		        </div>\
+		    </div>\
+            <div class="form-group">\
+		        <label for="description" class="col-md-12 col-form-label">Email</label>\
+		        <div class="col-md-12">\
+		            <input type="email" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" required autofocus>\
+		        </div>\
+		    </div>\
+            <div class="form-group">\
+		        <label for="email" class="col-md-12 col-form-label">Password</label>\
+		        <div class="col-md-12">\
+		            <input type="password" class="form-control" pattern=".{6,}" title="Six or more characters" name="password" required autofocus>\
+		        </div>\
+		    </div>\
+            <div class="form-group">\
+		        <label for="phone" class="col-md-12 col-form-label">Phone</label>\
+		        <div class="col-md-12">\
+		            <input type="number" class="form-control" name="phone" required autofocus>\
+		        </div>\
+		    </div>\
+            <div class="form-group">\
+		        <label for="status" class="col-md-12 col-form-label">Status</label>\
+		        <div class="col-md-12">\
+                <input type="text" class="form-control" name="status" required autofocus>\
+		        </div>\
+		    </div>';
+        $('#insertEmployeeBody').html(insertData_employee_data);   
+    });
+    $('.insertEmployee').on('click', function (e) {
+        var values = $("#addMenu").serializeArray();
+        console.log(values);
         var name = values[0].value;
         var email = values[1].value;
         var password = values[2].value;
         var phone = values[3].value; 
         var status = values[4].value;
         var userID = lastIndex + 1; 
-        firebase.database().ref('employee').push({
-            id: userID,
-            name: name,
-            email: email,
-            password: password,
-            phone: phone,
-            status: status,
-            CurDistWithRest : "",
-            TotalDist : "",
-            TotalAmount : "",
-            TotalCount : 0
-        });                     
-        // Reassign lastID value
-        lastIndex = userID;
-        $("#addMenu input").val("");
-        $("[data-dismiss=modal]").trigger({ type: "click" });
-        $("#insert-modal-employee").modal('hide');
+        e.preventDefault();
+        if(values[0].value == ""){
+            alert("Please insert Delivery guy name");
+        } else if(validateEmail(values[1].value) == false){
+            alert("Email is empty or not valid");
+        } else if(values[2].value == "" || values[2].value.length < 6){
+            alert("Password is empty or less than 6 digit");
+        } else if(values[3].value == ""){
+            alert("Phone is empty");
+        } else if(values[4].value == ""){
+            alert("Status is empty");
+        } else {
+            firebase.database().ref('employee').push({
+                id: userID,
+                name: name,
+                email: email,
+                password: password,
+                phone: phone,
+                status: status,
+                CurDistWithRest : "",
+                TotalDist : "",
+                TotalAmount : "",
+                TotalCount : 0
+            });                     
+            // Reassign lastID value
+            lastIndex = userID;
+            $("#addMenu input").val("");
+            $("[data-dismiss=modal]").trigger({ type: "click" });
+            $("#insert-modal-employee").modal('hide');
+        }
     });
     // Update Data
     var updateID = 0;
-    $('body').on('click', '.updateData_employee', function (e) {
-        e.preventDefault();
+    $('body').on('click', '.updateData_employee', function () {
+        //e.preventDefault();
         updateID = $(this).attr('data-id');
         firebase.database().ref('employee/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
@@ -200,9 +219,9 @@
 		        </div>\
 		    </div>\
             <div class="form-group">\
-		        <label for="description" class="col-md-12 col-form-label">Email</label>\
+		        <label for="email" class="col-md-12 col-form-label">Email</label>\
 		        <div class="col-md-12">\
-		            <input type="email" class="form-control" name="email" value="' + values.email + '" required autofocus>\
+		            <input type="email" class="form-control" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" value="' + values.email + '" required autofocus>\
 		        </div>\
 		    </div>\
             <div class="form-group">\
@@ -223,15 +242,29 @@
     $('.updateEmployee').on('click', function () {
         var values = $(".employee-update-record-model").serializeArray(); 
         console.log(values);
-        var EmployeeID = $('#employee_id').val();      
-        var postData = {
-                  
-            };
-        var updates = {};
-        updates['/employee/' + EmployeeID] = postData;
-        $("[data-dismiss=modal]").trigger({ type: "click" });
-        // location.reload();
-        $("#update-modal-employee").modal('hide');
+        var EmployeeID = $('#employee_id').val(); 
+        if(values[0].value == ""){
+            alert("Please insert Delivery guy name");
+        } else if(validateEmail(values[1].value) == false){
+            alert("Email is empty or not valid");
+        } else if(values[2].value == ""){
+            alert("Phone is empty");
+        } else if(values[3].value == ""){
+            alert("Status is empty");
+        } else {     
+            var postData = {
+                    name: values[0].value,
+                    email: values[1].value,
+                    phone: values[2].value,
+                    status: values[3].value
+                };
+            var updates = {};
+            updates['/employee/' + EmployeeID] = postData;
+            firebase.database().ref('employee/' + EmployeeID).update(postData);
+            $("[data-dismiss=modal]").trigger({ type: "click" });
+            // location.reload();
+            $("#update-modal-employee").modal('hide');
+        }
     });
     // Remove Data
     $("body").on('click', '.removeData_menu', function () {
@@ -242,13 +275,24 @@
         var values = $(".menu-remove-record-model").serializeArray();
         var id = values[0].value;
         firebase.database().ref('employee/' + id).remove();
-        location.reload();
+        //location.reload();
         $('body').find('.menu-remove-record-model').find("input").remove();
         $("#remove-modal").modal('hide');
     });
     $('.remove-data-from-delete-form').click(function () {
         $('body').find('.menu-remove-record-model').find("input").remove();
     });  
+    function validateEmail(email) {
+         //var emailID = document.myForm.EMail.value;
+         atpos = email.indexOf("@");
+         dotpos = email.lastIndexOf(".");
+         
+         if (atpos < 1 || ( dotpos - atpos < 2 )) {
+            alert("Please enter correct email ID");            
+            return false;
+         }
+         return( true );
+      }
 </script>
 
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

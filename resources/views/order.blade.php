@@ -18,6 +18,7 @@
             <th>Total</th>
             <th>Order Date</th>
             <th>Status</th>
+            <th>Delivery Guy</th>
             <th width="180" class="text-center">Action</th>
         </tr>
         <tbody id="tbody">
@@ -96,6 +97,16 @@
     var database = firebase.database();
     var lastIndex = 0;
     var title = '';
+    var employeeList = [];
+    var ref = firebase.database().ref('employee/');
+    ref.once('value', function(snapshot){       
+        snapshot.forEach(function(childSnapshot) {
+        var childKey = childSnapshot.key;
+        var childData = childSnapshot.val();
+        employeeList[childKey] = childData;
+        //employeeList +='<option value="' + childKey + '">' + childData.name + '</option>';        
+        });      
+    });
     // Get Data
     firebase.database().ref('orders/').on('value', function (snapshot) {
         var value = snapshot.val();
@@ -103,13 +114,14 @@
         $.each(value, function (index, value) {
             if (value) {
                 var theDate = new Date(value.orderTime);
-                var dateString = theDate.toLocaleDateString() +' '+ theDate.toLocaleTimeString();
+                var dateString = theDate.toLocaleDateString() +' '+ theDate.toLocaleTimeString();                
                 htmls.push('<tr>\
         		<td>' + value.name + '</td>\
                 <td>' + value.phone + '</td>\
                 <td>' + value.totalPrice + '</td>\
                 <td>' + dateString + '</td>\
                 <td>' + value.PurchaseStatus + '</td>\
+                <td>' + ((value.deliveryName) ? value.deliveryName : '') + '</td>\
         		<td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="' + index + '">Update Status</button>\
         	</tr>');
             }
@@ -121,15 +133,30 @@
     // Update Data
     var updateID = 0;
     $('body').on('click', '.updateData', function () {
-        updateID = $(this).attr('data-id');
+        updateID = $(this).attr('data-id');        
         firebase.database().ref('orders/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
+            var data = '';
+            for (i in employeeList) {
+                if(employeeList[i].id == values.deliveryId){
+                    data += '<option value="'+employeeList[i].id+'" delivery="'+employeeList[i].name +'" selected = "selected">'+employeeList[i].name+'</option>';
+                } else {
+                    data += '<option value="'+employeeList[i].id+'" delivery="'+employeeList[i].name + '">'+employeeList[i].name+'</option>';
+                }
+            }
             var updateData = '<div class="form-group">\
 		        <label for="price" class="col-md-12 col-form-label">Status</label>\
 		        <div class="col-md-12">\
-                    <select id=status class="form-control" name="PurchaseStatus"><option value="Pending">Pending</option><option value="On the Way">On the Way</option><option value="Delivered">Delivered</option>\
+                    <select id=status class="form-control" name="PurchaseStatus"><option value="Pending">Pending</option><option value="On the Way">On the Way</option><option value="Delivered">Delivered</option></select>\
 		        </div>\
-		    </div>';
+		    </div>\
+            <div class="form-group">\
+		        <label for="price" class="col-md-12 col-form-label">Assign Order To</label>\
+		        <div class="col-md-12">\
+                    <select id=delivery_guy class="form-control" name="delivery_guy" onchange="chngeName()">'+data+'\
+                    </select></div>\
+                    <input type="hidden" id="delivery_name" name="delivery_name">\
+		    </div>';                
             $('#updateBody').html(updateData);
         });
     });
@@ -137,6 +164,8 @@
         var values = $(".users-update-record-model").serializeArray();
         var postData = {
             PurchaseStatus: values[0].value,
+            deliveryId: values[1].value,
+            deliveryName: values[2].value,
         };
         var updates = {};
         updates['/orders/' + updateID] = postData;
@@ -144,6 +173,11 @@
         $("#update-modal").modal('hide');
         $("[data-dismiss=modal]").trigger({ type: "click" });
     });
+    function chngeName() {
+        var e = document.getElementById("delivery_guy");
+        var strUsertext = e.options[e.selectedIndex].text;
+        $('#delivery_name').val(strUsertext);
+}
     // Remove Data
     $("body").on('click', '.removeData', function () {
         var id = $(this).attr('data-id');

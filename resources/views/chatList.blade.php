@@ -11,7 +11,13 @@
 @section('content')
         <div class="row">
             <div class="col-md-4 col-4 col-sm-3">
-                <div class="" style="position:relative; height: 80vh; cursor:pointer; backgroung:#222d32; overflow-x: auto;
+                    <div class="" style="position:relative; height: 40vh; cursor:pointer; backgroung:#222d32; overflow-x: auto;
+                    overflow-y: auto;">
+                                    <ul class="contacts-list" id="deliveryChat">
+                                                                
+                                    </ul>
+                                </div>
+                <div class="" style="position:relative; height: 45vh; cursor:pointer; backgroung:#222d32; overflow-x: auto;
     overflow-y: auto;">
                     <ul class="contacts-list" id="listItemChat">
                                                 
@@ -92,8 +98,34 @@
     var title = '';
     var currKey = '';
     var currName = '';
+    var chatType = '';
     var i = 0;
+    var j = 0;
     // Get Data
+    firebase.database().ref('employee/').on('value', function (snapshot) {
+        var value = snapshot.val();
+        var emp_htmls = [];
+        // if(snapshot.hasChildren()){
+        //     htmls.push('<li class="list-group-item"><input type="text" placeholder="Search or Start new chat" class="form-control form-rounded"></li>');
+        // }
+        $.each(value, function (index, value) {                                     
+            if (value) {                                
+                badge_msg = ((value.ReceivedCount > 0 && value.sendBy == 'Delivery') ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+value.ReceivedCount+'">'+value.ReceivedCount+'</span>':"");                      
+                emp_htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+', 1)">\
+                <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
+                <input type="hidden" id="key_name_'+ i+'" value="'+value.name+'" >\
+                <div class="contacts-list-info">\
+                    <span class="contacts-list-name" style="color:#999;">'+value.name+' '+badge_msg+'</span>\
+                    <span class="contacts-list-msg">'+value.email+'</span>\
+                </div>\
+            </li>');
+            }
+            i++;
+            lastIndex = index;
+        });
+        $('#deliveryChat').html(emp_htmls);
+       // $("#submitUser").removeClass('desabled');
+    });  
     firebase.database().ref('users/').on('value', function (snapshot) {
         var value = snapshot.val();
         var htmls = [];
@@ -102,24 +134,17 @@
         // }
         $.each(value, function (index, value) {                                     
             if (value) {                                
-                var badge_msg = '';
-                // var mostViewedPosts = gotUserData(index);
-                //console.log(mostViewedPosts);
-                // adaURL.then(function(snapshot) { 
-                //     mostViewedPosts = snapshot.val();
-                    //badge_msg = ((mostViewedPosts > 0) ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+mostViewedPosts+'">'+mostViewedPosts+'</span>':"");                      
-                //     }.bind(this));
-               
-                htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+')">\
-                <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
-                <input type="hidden" id="key_name_'+ i+'" value="'+value.fullName+'" >\
+                badge_msg = ((value.ReceivedCount > 0 && value.sendBy == 'User') ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+value.ReceivedCount+'">'+value.ReceivedCount+'</span>':"");                      
+                htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+j+', 2)">\
+                <input type="hidden" id="key_val_'+ j+'" value="'+value.id+'" >\
+                <input type="hidden" id="key_name_'+ j+'" value="'+value.fullName+'" >\
                 <div class="contacts-list-info">\
                     <span class="contacts-list-name" style="color:#999;">'+value.fullName+' '+badge_msg+'</span>\
                     <span class="contacts-list-msg">'+value.email+'</span>\
                 </div>\
             </li>');
             }
-            i++;
+            j++;
             lastIndex = index;
         });
         $('#listItemChat').html(htmls);
@@ -130,7 +155,7 @@
     //         return snapshot.val();
     //     })
     // }
-    function LoadChatMessages(val) { 
+    function LoadChatMessages(val, cat) { 
         jQuery($('.list-group-item')).removeClass('active');
         if(val != "welcome"){ 
         var key = document.getElementById('key_val_'+val).value; 
@@ -140,12 +165,14 @@
         document.getElementById('chatPanel').removeAttribute('style');
         document.getElementById('divStart').setAttribute('style', 'display: none'); 
         currKey = key; 
-        currName = name;   
-        // firebase.database().ref('/messageCount/' + key).once('value').then(function(snapshot) { 
-        //         if(snapshot.val().sendBy == 'User'){               
-        //             firebase.database().ref('messageCount').child(key).set({'ReceivedCount':0, 'sendBy': 'Admin', 'username': name}).then().catch();          
-        //         }
-        //     }); 
+        currName = name; 
+        chatType = cat;
+        if(cat == 1) {             
+            firebase.database().ref('employee/'+key).update({ReceivedCount: 0,sendBy: "Admin"});          
+        }
+        if(cat == 2) { 
+            firebase.database().ref('users/'+key).update({ReceivedCount:0, sendBy: "Admin"});          
+        }
         // firebase.database().ref('messageCount').child(key).set({'ReceivedCount': 0, 'sendBy': 'Admin', 'username': name}).then().catch();
         firebase.database().ref('messages/'+key).on('value', function(snapshot) {
                 var value = snapshot.val();      
@@ -191,14 +218,7 @@
     function sendMessage(){
         //alert(currKey);
         var msg = document.getElementById('textMessage').value;
-        if(msg){ 
-            // firebase.database().ref('/messageCount/' + currKey).once('value').then(function(snapshot) { 
-            //     if(snapshot.val().sendBy == 'Admin'){               
-            //         var mostViewedPosts = snapshot.val().ReceivedCount;
-            //         firebase.database().ref('messageCount').child(currKey).set({'ReceivedCount': mostViewedPosts+1, 'sendBy': 'Admin', 'username': 'Admin'}).then().catch();          
-            //     }
-            // });                       
-          
+        if(msg){                                     
             firebase.database().ref('messages/' + currKey).push({
                 message: msg,
                 sendBy: "Admin",
@@ -213,6 +233,26 @@
         } else {
             alert("Please write something to send");
         }
+        if(cat == 1) { 
+                firebase.database().ref('/employee/' + currKey).once('value').then(function(snapshot) { 
+                    if(snapshot.val().sendBy == 'Admin'){               
+                    var mostViewedPosts = snapshot.val().ReceivedCount;
+                        firebase.database().ref('employee/'+key).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'});  
+                    } else {
+                        firebase.database().ref('employee/'+key).update({'ReceivedCount':1, 'sendBy': 'Admin'});   
+                    }       
+                }); 
+            }
+            if(cat == 2) { 
+                firebase.database().ref('/users/' + currKey).once('value').then(function(snapshot) { 
+                    if(snapshot.val().sendBy == 'Admin'){               
+                    var mostViewedPosts = snapshot.val().ReceivedCount; 
+                        firebase.database().ref('users/'+key).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'}); 
+                    } else {
+                        firebase.database().ref('users/'+key).update({'ReceivedCount':1, 'sendBy': 'Admin'}); 
+                    }
+                }); 
+            }       
         firebase.database().ref('messages/'+currKey).on('value', function(snapshot) {
                 var value = snapshot.val();      
                 var msgList = [];  
