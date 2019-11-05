@@ -13,7 +13,7 @@
 <div class="box-body">
     <table class="table table-bordered">
         <tr>
-            <th>Name</th>
+            <th>Customer Name</th>
             <th>Mobile Number</th>
             <th>Total</th>
             <th>Order Date</th>
