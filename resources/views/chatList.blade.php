@@ -112,7 +112,7 @@
             if (value) {                                
                 badge_msg = ((value.ReceivedCount > 0 && value.sendBy == 'Delivery') ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+value.ReceivedCount+'">'+value.ReceivedCount+'</span>':"");                      
                 emp_htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+', 1)">\
-                <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
+                <input type="hidden" id="key_val_'+ i+'" value="'+index+'" >\
                 <input type="hidden" id="key_name_'+ i+'" value="'+value.name+'" >\
                 <div class="contacts-list-info">\
                     <span class="contacts-list-name" style="color:#999;">'+value.name+' '+badge_msg+'</span>\
@@ -227,32 +227,30 @@
                 createdAt: Date.now()
             });  
             document.getElementById('textMessage').value = '';
-            document.getElementById('textMessage').focus();            
-            document.getElementById('messagesList').html().scrollTo(0, $('#messagesList')[0].scrollHeight);
-            $('#messagesList').html().fadeIn().delay(1000);
-        } else {
-            alert("Please write something to send");
-        }
-        if(cat == 1) { 
-                firebase.database().ref('/employee/' + currKey).once('value').then(function(snapshot) { 
+            document.getElementById('textMessage').focus();                        
+            if(chatType == 1) { 
+                firebase.database().ref('employee/' + currKey).once('value').then(function(snapshot) { 
+                    console.log(snapshot.val())
                     if(snapshot.val().sendBy == 'Admin'){               
                     var mostViewedPosts = snapshot.val().ReceivedCount;
-                        firebase.database().ref('employee/'+key).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'});  
-                    } else {
-                        firebase.database().ref('employee/'+key).update({'ReceivedCount':1, 'sendBy': 'Admin'});   
+                        firebase.database().ref('employee/'+currKey).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'});  
                     }       
                 }); 
             }
-            if(cat == 2) { 
+            if(chatType == 2) { 
                 firebase.database().ref('/users/' + currKey).once('value').then(function(snapshot) { 
                     if(snapshot.val().sendBy == 'Admin'){               
                     var mostViewedPosts = snapshot.val().ReceivedCount; 
-                        firebase.database().ref('users/'+key).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'}); 
-                    } else {
-                        firebase.database().ref('users/'+key).update({'ReceivedCount':1, 'sendBy': 'Admin'}); 
+                        firebase.database().ref('users/'+currKey).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'}); 
                     }
                 }); 
-            }       
+            }
+            //document.getElementById('messagesList').html().scrollTo(0, $('#messagesList')[0].scrollHeight);
+            document.getElementById('messagesList').scrollTo(0, document.getElementById('messagesList').clientHeight);
+            $('#messagesList').html().fadeIn().delay(1000);
+        } else {
+            alert("Please write something to send");
+        }       
         firebase.database().ref('messages/'+currKey).on('value', function(snapshot) {
                 var value = snapshot.val();      
                 var msgList = [];  

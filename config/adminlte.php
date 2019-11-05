@@ -168,6 +168,11 @@ return [
             'url'         => 'chat',
             'icon'        => 'far fa-file'            
         ],
+        [
+            'text'        => 'Delivery guys',
+            'url'         => 'employee',
+            'icon'        => 'far fa-file'            
+        ],
     ],
 
     /*

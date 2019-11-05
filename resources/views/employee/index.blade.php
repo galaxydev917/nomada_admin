@@ -186,7 +186,7 @@
             alert("Status is empty");
         } else {
             firebase.database().ref('employee').push({
-                id: userID,
+                id: lastIndex + 1,
                 name: name,
                 email: email,
                 password: password,
@@ -196,7 +196,7 @@
                 TotalDist : "",
                 TotalAmount : "",
                 TotalCount : 0
-            });                     
+            });  
             // Reassign lastID value
             lastIndex = userID;
             $("#addMenu input").val("");
