@@ -100,17 +100,24 @@
         // if(snapshot.hasChildren()){
         //     htmls.push('<li class="list-group-item"><input type="text" placeholder="Search or Start new chat" class="form-control form-rounded"></li>');
         // }
-        $.each(value, function (index, value) {
-            if (value) {
-               var badge_msg = ((value.ReceivedCount > 0) ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+value.ReceivedCount+'">'+value.ReceivedCount+'</span>':"");
+        $.each(value, function (index, value) {                                     
+            if (value) {                                
+                var badge_msg = '';
+                // var mostViewedPosts = gotUserData(index);
+                //console.log(mostViewedPosts);
+                // adaURL.then(function(snapshot) { 
+                //     mostViewedPosts = snapshot.val();
+                    //badge_msg = ((mostViewedPosts > 0) ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+mostViewedPosts+'">'+mostViewedPosts+'</span>':"");                      
+                //     }.bind(this));
+               
                 htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+')">\
-                            <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
-                            <input type="hidden" id="key_name_'+ i+'" value="'+value.fullName+'" >\
-                            <div class="contacts-list-info">\
-                                <span class="contacts-list-name" style="color:#999;">'+value.fullName+'</span>\
-                                <span class="contacts-list-msg">'+value.email+'</span>\
-                            </div>\
-                        </li>');
+                <input type="hidden" id="key_val_'+ i+'" value="'+value.id+'" >\
+                <input type="hidden" id="key_name_'+ i+'" value="'+value.fullName+'" >\
+                <div class="contacts-list-info">\
+                    <span class="contacts-list-name" style="color:#999;">'+value.fullName+' '+badge_msg+'</span>\
+                    <span class="contacts-list-msg">'+value.email+'</span>\
+                </div>\
+            </li>');
             }
             i++;
             lastIndex = index;
@@ -118,6 +125,11 @@
         $('#listItemChat').html(htmls);
         $("#submitUser").removeClass('desabled');
     });  
+    // function gotUserData(userId){          
+    //     firebase.database().ref('/messageCount/' + userId + '/ReceivedCount').once('value').then(function(snapshot) { 
+    //         return snapshot.val();
+    //     })
+    // }
     function LoadChatMessages(val) { 
         jQuery($('.list-group-item')).removeClass('active');
         if(val != "welcome"){ 
@@ -129,11 +141,17 @@
         document.getElementById('divStart').setAttribute('style', 'display: none'); 
         currKey = key; 
         currName = name;   
-        firebase.database().ref('messages/'+key).on('value', function(snapshot) {;
+        // firebase.database().ref('/messageCount/' + key).once('value').then(function(snapshot) { 
+        //         if(snapshot.val().sendBy == 'User'){               
+        //             firebase.database().ref('messageCount').child(key).set({'ReceivedCount':0, 'sendBy': 'Admin', 'username': name}).then().catch();          
+        //         }
+        //     }); 
+        // firebase.database().ref('messageCount').child(key).set({'ReceivedCount': 0, 'sendBy': 'Admin', 'username': name}).then().catch();
+        firebase.database().ref('messages/'+key).on('value', function(snapshot) {
                 var value = snapshot.val();      
                 var msgList = [];  
                 if(snapshot.hasChildren()){       
-                $.each(value, function (index, value) {  
+                $.each(value, function (index, value) {                      
                     var theDate = new Date(value.createdAt);
                     var dateString = theDate.toLocaleDateString() +' '+ theDate.toLocaleTimeString();
                     if (value) {
@@ -173,19 +191,25 @@
     function sendMessage(){
         //alert(currKey);
         var msg = document.getElementById('textMessage').value;
-        if(msg){           
+        if(msg){ 
+            // firebase.database().ref('/messageCount/' + currKey).once('value').then(function(snapshot) { 
+            //     if(snapshot.val().sendBy == 'Admin'){               
+            //         var mostViewedPosts = snapshot.val().ReceivedCount;
+            //         firebase.database().ref('messageCount').child(currKey).set({'ReceivedCount': mostViewedPosts+1, 'sendBy': 'Admin', 'username': 'Admin'}).then().catch();          
+            //     }
+            // });                       
+          
             firebase.database().ref('messages/' + currKey).push({
                 message: msg,
                 sendBy: "Admin",
                 userName: currName, 
                 msgStatus: false,           
-                createdAt: Date.now(),
-                ReceivedCount: 1
-            });            
+                createdAt: Date.now()
+            });  
             document.getElementById('textMessage').value = '';
-            document.getElementById('textMessage').focus();
-            $('#messagesList').html().fadeIn().delay(1000);
+            document.getElementById('textMessage').focus();            
             document.getElementById('messagesList').html().scrollTo(0, $('#messagesList')[0].scrollHeight);
+            $('#messagesList').html().fadeIn().delay(1000);
         } else {
             alert("Please write something to send");
         }
