@@ -171,7 +171,7 @@
             firebase.database().ref('employee/'+key).update({ReceivedCount: 0,sendBy: "Admin"});          
         }
         if(cat == 2) { 
-            firebase.database().ref('users/'+key).update({ReceivedCount:0, sendBy: "Admin"});          
+           // firebase.database().ref('users/'+key).update({ReceivedCount:0, sendBy: "Admin"});          
         }
         // firebase.database().ref('messageCount').child(key).set({'ReceivedCount': 0, 'sendBy': 'Admin', 'username': name}).then().catch();
         firebase.database().ref('messages/'+key).on('value', function(snapshot) {
@@ -238,12 +238,12 @@
                 }); 
             }
             if(chatType == 2) { 
-                firebase.database().ref('/users/' + currKey).once('value').then(function(snapshot) { 
-                    if(snapshot.val().sendBy == 'Admin'){               
-                    var mostViewedPosts = snapshot.val().ReceivedCount; 
-                        firebase.database().ref('users/'+currKey).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'}); 
-                    }
-                }); 
+                // firebase.database().ref('/users/' + currKey).once('value').then(function(snapshot) { 
+                //     if(snapshot.val().sendBy == 'Admin'){               
+                //     var mostViewedPosts = snapshot.val().ReceivedCount; 
+                //         firebase.database().ref('users/'+currKey).update({'ReceivedCount':mostViewedPosts+1, 'sendBy': 'Admin'}); 
+                //     }
+                // }); 
             }
             //document.getElementById('messagesList').html().scrollTo(0, $('#messagesList')[0].scrollHeight);
             document.getElementById('messagesList').scrollTo(0, document.getElementById('messagesList').clientHeight);
