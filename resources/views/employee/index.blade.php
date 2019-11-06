@@ -159,7 +159,7 @@
             <div class="form-group">\
 		        <label for="status" class="col-md-12 col-form-label">Status</label>\
 		        <div class="col-md-12">\
-                <input type="text" class="form-control" name="status" required autofocus>\
+                    <select class="form-control" name="status"><option value="Active">Active</option><option value="Inactive">In-Active</option></select>\
 		        </div>\
 		    </div>';
         $('#insertEmployeeBody').html(insertData_employee_data);   
@@ -233,7 +233,7 @@
             <div class="form-group">\
 		        <label for="status" class="col-md-12 col-form-label">Status</label>\
 		        <div class="col-md-12">\
-                <input type="text" class="form-control" name="status" value="' + values.status + '" required autofocus>\
+                    <select class="form-control" name="status"><option value="Active">Active</option><option value="Inactive">In-Active</option></select>\
 		        </div>\
 		    </div>';
             $('#updateEmployeeBody').html(updateData_employee_data);

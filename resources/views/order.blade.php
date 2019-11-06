@@ -103,7 +103,9 @@
         snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
         var childData = childSnapshot.val();
-        employeeList[childKey] = childData;
+        if(childSnapshot.val().status == 'Active'){
+            employeeList[childKey] = childData;
+        }
         //employeeList +='<option value="' + childKey + '">' + childData.name + '</option>';        
         });      
     });
