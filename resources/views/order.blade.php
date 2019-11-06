@@ -138,7 +138,7 @@
         updateID = $(this).attr('data-id');        
         firebase.database().ref('orders/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
-            var data = '';
+            var data = '<option value="">Select Delivery guy</option>';
             for (i in employeeList) {
                 if(employeeList[i].id == values.deliveryId){
                     data += '<option value="'+employeeList[i].id+'" delivery="'+employeeList[i].name +'" selected = "selected">'+employeeList[i].name+'</option>';
