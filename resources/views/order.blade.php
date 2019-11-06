@@ -103,7 +103,7 @@
         snapshot.forEach(function(childSnapshot) {
         var childKey = childSnapshot.key;
         var childData = childSnapshot.val();
-        if(childSnapshot.val().status == 'Active'){
+        if(childData.status == 'Active'){
             employeeList[childKey] = childData;
         }
         //employeeList +='<option value="' + childKey + '">' + childData.name + '</option>';        
@@ -138,12 +138,12 @@
         updateID = $(this).attr('data-id');        
         firebase.database().ref('orders/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
-            var data = '<option value="">Select Delivery guy</option>';
+            var data = '';
             for (i in employeeList) {
                 if(employeeList[i].id == values.deliveryId){
-                    data += '<option value="'+employeeList[i].id+'" delivery="'+employeeList[i].name +'" selected = "selected">'+employeeList[i].name+'</option>';
+                    data += '<option value="'+employeeList[i].id+'" data-delivery="'+employeeList[i].name +'" selected = "selected">'+employeeList[i].name+'</option>';
                 } else {
-                    data += '<option value="'+employeeList[i].id+'" delivery="'+employeeList[i].name + '">'+employeeList[i].name+'</option>';
+                    data += '<option value="'+employeeList[i].id+'" data-delivery="'+employeeList[i].name + '">'+employeeList[i].name+'</option>';
                 }
             }
             var updateData = '<div class="form-group">\
@@ -155,19 +155,19 @@
             <div class="form-group">\
 		        <label for="price" class="col-md-12 col-form-label">Assign Order To</label>\
 		        <div class="col-md-12">\
-                    <select id=delivery_guy class="form-control" name="delivery_guy" onchange="chngeName()">'+data+'\
+                    <select id=delivery_guy class="form-control" name="delivery_guy">'+data+'\
                     </select></div>\
-                    <input type="hidden" id="delivery_name" name="delivery_name">\
-		    </div>';                
+                </div>';                
             $('#updateBody').html(updateData);
         });
     });
     $('.updateCustomer').on('click', function () {
         var values = $(".users-update-record-model").serializeArray();
+        var status = $("#delivery_guy").find('option:selected').attr("data-delivery");
         var postData = {
             PurchaseStatus: values[0].value,
             deliveryId: values[1].value,
-            deliveryName: values[2].value,
+            deliveryName: status,
         };
         var updates = {};
         updates['/orders/' + updateID] = postData;
@@ -175,11 +175,7 @@
         $("#update-modal").modal('hide');
         $("[data-dismiss=modal]").trigger({ type: "click" });
     });
-    function chngeName() {
-        var e = document.getElementById("delivery_guy");
-        var strUsertext = e.options[e.selectedIndex].text;
-        $('#delivery_name').val(strUsertext);
-}
+    
     // Remove Data
     $("body").on('click', '.removeData', function () {
         var id = $(this).attr('data-id');

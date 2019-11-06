@@ -109,7 +109,7 @@
         //     htmls.push('<li class="list-group-item"><input type="text" placeholder="Search or Start new chat" class="form-control form-rounded"></li>');
         // }
         $.each(value, function (index, value) {                                     
-            if (value) {                                
+            if (value && value.status == 'Active') {                             
                 badge_msg = ((value.ReceivedCount > 0 && value.sendBy == 'Delivery') ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+value.ReceivedCount+'">'+value.ReceivedCount+'</span>':"");                      
                 emp_htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+', 1)">\
                 <input type="hidden" id="key_val_'+ i+'" value="'+index+'" >\
