@@ -150,9 +150,8 @@
 		        <label for="price" class="col-md-12 col-form-label">Status</label>\
 		        <div class="col-md-12">\
                     <select id=status class="form-control" name="PurchaseStatus">\
-                        <option value="Pending" ' + (values.PurchaseStatus == "Pending") ? selected="selected": "" + '>Pending</option>\
-                        <option value="On the Way" ' + (values.PurchaseStatus == "On the Way") ? selected="selected": "" + '>On the Way</option>\
-                        <option value="Delivered" ' + (values.PurchaseStatus == "Delivered") ? selected="selected": "" + '>Delivered</option></select>\
+                        <option value="Pending">Pending</option>\
+                        <option value="On the Way">On the Way</option><option value="Delivered">Delivered</option></select>\
 		        </div>\
 		    </div>\
             <div class="form-group">\
