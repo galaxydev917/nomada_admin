@@ -102,7 +102,7 @@
     var i = 0;
     var j = 0;
     // Get Data
-    firebase.database().ref('employee/').orderByChild('ReceivedCount').limitToLast(50).on('value', function (snapshot) {
+    firebase.database().ref('employee/').orderByChild('ReceivedCount').on('value', function (snapshot) {
         var value = snapshot.val();
         var emp_htmls = [];
         // if(snapshot.hasChildren()){

@@ -110,7 +110,7 @@
         });      
     });
     // Get Data
-    firebase.database().ref('orders/').on('value', function (snapshot) {
+    firebase.database().ref('orders/').orderByChild('orderTime').on('value', function (snapshot) {
         var value = snapshot.val();
         var htmls = [];
         $.each(value, function (index, value) {
@@ -129,7 +129,7 @@
             }
             lastIndex = index;
         });
-        $('#tbody').html(htmls);
+        $('#tbody').html(htmls.reverse());
         $("#submitUser").removeClass('desabled');
     });
     // Update Data
@@ -175,7 +175,7 @@
         $("#update-modal").modal('hide');
         $("[data-dismiss=modal]").trigger({ type: "click" });
     });
-    
+
     // Remove Data
     $("body").on('click', '.removeData', function () {
         var id = $(this).attr('data-id');
