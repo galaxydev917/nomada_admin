@@ -233,7 +233,8 @@
             <div class="form-group">\
 		        <label for="status" class="col-md-12 col-form-label">Status</label>\
 		        <div class="col-md-12">\
-                    <select class="form-control" name="status"><option value="Active">Active</option><option value="Inactive">In-Active</option></select>\
+                    <select class="form-control" name="status"><option value="Active" ' + (values.status == "Active") ? selected="selected": "" + '>Active</option>\
+                        <option value="Inactive" ' + (values.status == "Inactive") ? selected="selected": "" + '>In-Active</option></select>\
 		        </div>\
 		    </div>';
             $('#updateEmployeeBody').html(updateData_employee_data);
