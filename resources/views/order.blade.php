@@ -158,7 +158,7 @@
             <div class="form-group">\
 		        <label for="price" class="col-md-12 col-form-label">Assign Order To</label>\
 		        <div class="col-md-12">\
-                    <select id=delivery_guy class="form-control" name="delivery_guy">'+data+'\
+                    <select id=delivery_guy class="form-control" name="delivery_guy" ' + ((values.PurchaseStatus == "Delivered") ? disabled="disabled" : "") + '>'+data+'\
                     </select></div>\
                 </div>';                
             $('#updateBody').html(updateData);
