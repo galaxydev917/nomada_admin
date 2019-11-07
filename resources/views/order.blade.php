@@ -5,7 +5,7 @@
 @section('content_header')
 
     <h1>Order List</h1>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
 @stop
 
 @section('content')
@@ -159,8 +159,17 @@
 		        <label for="price" class="col-md-12 col-form-label">Assign Order To</label>\
 		        <div class="col-md-12">\
                     <select id=delivery_guy class="form-control" name="delivery_guy" ' + ((values.PurchaseStatus == "Delivered") ? disabled="disabled" : "") + '>'+data+'\
-                    </select></div>\
-                </div>';                
+                    </select>\
+                </div>\
+            </div>\
+            <div class="form-group">\
+                <div class="input-group date">\
+                    <input type="text" class="form-control" id="example1" />\
+                    <span class="input-group-addon">\
+                        <span class="glyphicon glyphicon-time"></span>\
+                    </span>\
+                </div>\
+            </div>';                
             $('#updateBody').html(updateData);
         });
     });
@@ -193,9 +202,14 @@
     });
     $('.remove-data-from-delete-form').click(function () {
         $('body').find('.users-remove-record-model').find("input").remove();
-    });
+    });   
 </script>
-
+<script>
+        $(function () {
+          $('#example1').datetimepicker();
+        });
+        </script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 @stop

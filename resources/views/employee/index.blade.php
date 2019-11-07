@@ -195,7 +195,8 @@
                 CurDistWithRest : "",
                 TotalDist : "",
                 TotalAmount : "",
-                TotalCount : 0
+                TotalCount : 0,
+                userType : 0
             });  
             // Reassign lastID value
             lastIndex = userID;
