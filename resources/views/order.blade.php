@@ -5,7 +5,7 @@
 @section('content_header')
 
     <h1>Order List</h1>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    
 @stop
 
 @section('content')
@@ -18,6 +18,7 @@
             <th>Total</th>
             <th>Order Date</th>
             <th>Status</th>
+            <th>Delivery Time</th>
             <th>Delivery Guy</th>
             <th width="180" class="text-center">Action</th>
         </tr>
@@ -123,6 +124,7 @@
                 <td>' + value.totalPrice + '</td>\
                 <td>' + dateString + '</td>\
                 <td>' + value.PurchaseStatus + '</td>\
+                <td>' + ((value.deliveryTime) ? value.deliveryTime : '') + '</td>\
                 <td>' + ((value.deliveryName) ? value.deliveryName : '') + '</td>\
         		<td><button data-toggle="modal" data-target="#update-modal" class="btn btn-info updateData" data-id="' + index + '">Update Status</button>\
         	</tr>');
@@ -135,9 +137,16 @@
     // Update Data
     var updateID = 0;
     $('body').on('click', '.updateData', function () {
-        updateID = $(this).attr('data-id');        
+        updateID = $(this).attr('data-id');               
         firebase.database().ref('orders/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
+            var theDate = new Date(values.orderTime);
+            $(function() {
+            $('#datetimepicker1').datetimepicker({
+                format: 'LT',
+                disabledTimeIntervals: [[moment({ h: 0 }), moment({ h: theDate.getHours() })], [moment({ h: 24 }), moment({ h: 24 })]]
+            });
+           }); 
             var data = '';
             for (i in employeeList) {
                 if(employeeList[i].id == values.deliveryId){
@@ -161,23 +170,35 @@
                     <select id=delivery_guy class="form-control" name="delivery_guy" ' + ((values.PurchaseStatus == "Delivered") ? disabled="disabled" : "") + '>'+data+'\
                     </select>\
                 </div>\
-            </div>';                
+            </div>\
+            <div class="form-group">\
+                <label for="Delivery Time" class="col-md-12 col-form-label">Delivery Time</label>\
+                <div class="date col-md-12">\
+                    <input type="text" class="form-control" name="deliveryTime" value="'+values.deliveryTime+'" id="datetimepicker1" ' + ((values.PurchaseStatus == "Delivered") ? disabled="disabled" : "") + ' />\
+                    </div>\
+            </div><div class="form-group" style="height:100px;"></div>';                
             $('#updateBody').html(updateData);
         });
     });
-    $('.updateCustomer').on('click', function () {
+
+    $('.updateCustomer').on('click', function () {        
         var values = $(".users-update-record-model").serializeArray();
         var status = $("#delivery_guy").find('option:selected').attr("data-delivery");
+        if(values[2].value == ""){
+            alert("Plase Select Delivery Time");
+        } else {
         var postData = {
             PurchaseStatus: values[0].value,
             deliveryId: values[1].value,
             deliveryName: status,
+            deliveryTime: values[2].value
         };
         var updates = {};
         updates['/orders/' + updateID] = postData;
         firebase.database().ref('orders/' + updateID).update(postData);
         $("#update-modal").modal('hide');
         $("[data-dismiss=modal]").trigger({ type: "click" });
+        }
     });
 
     // Remove Data
@@ -196,12 +217,7 @@
         $('body').find('.users-remove-record-model').find("input").remove();
     });   
 </script>
-<script>
-        $(function () {
-          $('#example1').datetimepicker();
-        });
-        </script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.js"></script>
+
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
 @stop
