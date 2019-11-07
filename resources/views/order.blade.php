@@ -161,14 +161,6 @@
                     <select id=delivery_guy class="form-control" name="delivery_guy" ' + ((values.PurchaseStatus == "Delivered") ? disabled="disabled" : "") + '>'+data+'\
                     </select>\
                 </div>\
-            </div>\
-            <div class="form-group">\
-                <div class="input-group date">\
-                    <input type="text" class="form-control" id="example1" />\
-                    <span class="input-group-addon">\
-                        <span class="glyphicon glyphicon-time"></span>\
-                    </span>\
-                </div>\
             </div>';                
             $('#updateBody').html(updateData);
         });
