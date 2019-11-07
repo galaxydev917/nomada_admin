@@ -140,6 +140,9 @@
         updateID = $(this).attr('data-id');               
         firebase.database().ref('orders/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
+            if(values.PurchaseStatus == "Delivered") {
+                $('.updateCustomer').hide();
+            }
             var theDate = new Date(values.orderTime);
             $(function() {
             $('#datetimepicker1').datetimepicker({
