@@ -210,7 +210,7 @@
                             </div>');
                 }
                 $('#messagesList').html(msgList);
-                document.getElementById(currKey).addclass('active');
+                //document.getElementById(currKey).addclass('active');
                 jQuery($('#'+currKey)).addClass('active');   
                 document.getElementById('messagesList').scrollTo(0, document.getElementById('messagesList').clientHeight);
             })            
