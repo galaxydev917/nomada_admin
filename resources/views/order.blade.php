@@ -164,6 +164,8 @@
                     <select id=status class="form-control" name="PurchaseStatus">\
                         <option value="Pending" ' + ((values.PurchaseStatus == "Pending") ? selected="selected" : "") + '>Pending</option>\
                         <option value="On the Way" ' + ((values.PurchaseStatus == "On the Way") ? selected="selected" : "") + '>On the Way</option>\
+                        <option value="guy_delivered" ' + ((values.PurchaseStatus == "guy_delivered") ? selected="selected" : "") + '>Guy Delivered</option>\
+                        <option value="cust_delivered" ' + ((values.PurchaseStatus == "cust_delivered") ? selected="selected" : "") + '>Customer Delivered</option>\
                         <option value="Delivered" ' + ((values.PurchaseStatus == "Delivered") ? selected="selected" : "") + '>Delivered</option></select>\
 		        </div>\
 		    </div>\
