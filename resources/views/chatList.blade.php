@@ -111,7 +111,7 @@
         $.each(value, function (index, value) {                                     
             if (value && value.status == 'Active') {                             
                 badge_msg = ((value.ReceivedCount > 0 && value.sendBy == 'Delivery') ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+value.ReceivedCount+'">'+value.ReceivedCount+'</span>':"");                      
-                emp_htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+', 1)">\
+                emp_htmls.push('<li id="'+index+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+i+', 1)">\
                 <input type="hidden" id="key_val_'+ i+'" value="'+index+'" >\
                 <input type="hidden" id="key_name_'+ i+'" value="'+value.name+'" >\
                 <div class="contacts-list-info">\
@@ -135,8 +135,8 @@
         $.each(value, function (index, value) {                                     
             if (value) {                                
                 badge_msg = ((value.ReceivedCount > 0 && value.sendBy == 'User') ? '<span data-toggle="tooltip" title="" class="badge bg-green" data-original-title="'+value.ReceivedCount+'">'+value.ReceivedCount+'</span>':"");                      
-                htmls.push('<li id="'+value.id+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+j+', 2)">\
-                <input type="hidden" id="key_val_'+ j+'" value="'+value.id+'" >\
+                htmls.push('<li id="'+index+'" class="list-group-item list-group-item-action" onclick="LoadChatMessages('+j+', 2)">\
+                <input type="hidden" id="key_val_'+ j+'" value="'+index+'" >\
                 <input type="hidden" id="key_name_'+ j+'" value="'+value.fullName+'" >\
                 <div class="contacts-list-info">\
                     <span class="contacts-list-name" style="color:#999;">'+value.fullName+' '+badge_msg+'</span>\
