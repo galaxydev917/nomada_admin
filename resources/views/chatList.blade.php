@@ -100,7 +100,7 @@
     var currName = '';
     var chatType = '';
     var i = 0;
-    var j = 0;
+    var j = 100;
     // Get Data
     firebase.database().ref('employee/').orderByChild('ReceivedCount').on('value', function (snapshot) {
         var value = snapshot.val();
@@ -157,17 +157,16 @@
     // }
     function LoadChatMessages(val, cat) { 
         jQuery($('.list-group-item')).removeClass('active');
-        //if(val != "welcome"){ 
+        if(val != "welcome"){ 
         var key = document.getElementById('key_val_'+val).value; 
         var name = document.getElementById('key_name_'+val).value; 
         //document.getElementById('chat_user').innerHTML = '<h2>'+name+'</h2>';  
-        //}
+        }
         document.getElementById('chatPanel').removeAttribute('style');
         document.getElementById('divStart').setAttribute('style', 'display: none'); 
         currKey = key; 
         currName = name; 
         chatType = cat;
-        jQuery($('#'+currKey)).addClass('active');  
         if(cat == 1) {             
             firebase.database().ref('employee/'+key).update({ReceivedCount: 0,sendBy: "Admin"});          
         }
@@ -211,7 +210,8 @@
                             </div>');
                 }
                 $('#messagesList').html(msgList);
-                //document.getElementById(currKey).addclass('active');                
+                //document.getElementById(currKey).addclass('active');
+                jQuery($('#'+currKey)).addClass('active');   
                 document.getElementById('messagesList').scrollTo(0, document.getElementById('messagesList').clientHeight);
             })            
     }  
