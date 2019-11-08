@@ -16,6 +16,15 @@
             <th>Name</th>
             <th>Description</th>
             <th>Price</th>
+            <th>Portion</th>
+            <th>Cook Time</th>
+            <th>Difficulty</th>
+            <th>item1</th>
+            <th>amount1</th>
+            <th>item2</th>
+            <th>amount2</th>
+            <th>item2</th>
+            <th>amount2</th>
             <th width="180" class="text-center">Action</th>
         </tr>
         <tbody id="tbody">
@@ -104,6 +113,15 @@
         		<td>' + value.name + '</td>\
                 <td>' + value.description + '</td>\
                 <td>' + value.price + '</td>\
+                <td>' + value.portion + '</td>\
+                <td>' + value.cooktime + '</td>\
+                <td>' + value.difficulty + '</td>\
+                <td>' + value.ingredients.item1 + '</td>\
+                <td>' + value.ingredients.amount1 + '</td>\
+                <td>' + value.ingredients.item2 + '</td>\
+                <td>' + value.ingredients.amount2 + '</td>\
+                <td>' + value.ingredients.item3 + '</td>\
+                <td>' + value.ingredients.amount3 + '</td>\
         		<td><button data-toggle="modal" data-target="#update-modal-menu" class="btn btn-info updateData_menu" data-id="' + index + '">Update</button>\
         		<button data-toggle="modal" data-target="#remove-modal" class="btn btn-danger removeData_menu" data-id="' + index + '">Delete</button></td>\
         	</tr>');
@@ -139,6 +157,59 @@
 		            <input id="price" type="text" class="form-control" name="price" value="' + values.price + '" required autofocus>\
 		        </div>\
 		    </div>\
+            <div class="form-group">\
+		        <label for="Portion" class="col-md-12 col-form-label">Portion</label>\
+		        <div class="col-md-12">\
+		            <input id="portion" type="text" class="form-control" name="portion" value="' + ((values.portion)? values.portion: "") + '" required autofocus>\
+		        </div>\
+		    </div>\
+            <div class="form-group">\
+		        <label for="difficulty" class="col-md-12 col-form-label">difficulty</label>\
+		        <div class="col-md-12">\
+                        <select name="difficulty">\
+                                <option value="easy" ' + ((values.PurchaseStatus == "easy") ? selected="selected" : "") + '>Easy</option>\
+                                <option value="medium" ' + ((values.PurchaseStatus == "medium") ? selected="selected" : "") + '>Medium</option>\
+                                <option value="difficult" ' + ((values.PurchaseStatus == "difficult") ? selected="selected" : "") + '>Difficult</option>\
+                            </select>\
+		        </div>\
+		    </div>\
+            <div class="form-group">\
+		        <label for="cooktime" class="col-md-12 col-form-label">Cook Time</label>\
+		        <div class="col-md-12">\
+		            <input id="cooktime" type="text" class="form-control" name="cooktime" value="' + ((values.cooktime)? values.cooktime: "") + '" required autofocus>\
+		        </div>\
+		    </div>\
+            <div class="col-md-12"><label class="bmd-label-floating"><u>ingredients</u></label></div>\
+            <div class="form-group">\
+                <label for="item1" class="col-md-2 col-form-label">item1</label>\
+                <div class="col-md-3">\
+                    <input id="item1" type="text" class="form-control" name="item1" value="' + ((values.ingredients.item1) ? values.ingredients.item1 : "") + '" autofocus>\
+                </div>\
+                <label for="amount1" class="col-md-2 col-form-label">amount1</label>\
+                <div class="col-md-3">\
+                    <input id="price" type="text" class="form-control" name="amount1" value="' + ((values.ingredients.amount1) ? values.ingredients.amount1 : "") + '" autofocus>\
+                </div>\
+            </div>\
+            <div class="form-group">\
+            <label for="item2" class="col-md-2 col-form-label">item2</label>\
+            <div class="col-md-3">\
+		            <input id="item2" type="text" class="form-control" name="item2" value="' + ((values.ingredients.item2) ? values.ingredients.item2 : "") + '" required autofocus>\
+		        </div>\
+		        <label for="amount2" class="col-md-2 col-form-label">amount2</label>\
+		        <div class="col-md-3">\
+                    <input id="amount2" type="text" class="form-control" name="amount2" value="' + ((values.ingredients.amount2) ? values.ingredients.amount2 : "") + '" required autofocus>\
+                </div>\
+            </div>\
+            <div class="form-group">\
+                <label for="item3" class="col-md-2 col-form-label">item3</label>\
+		        <div class="col-md-3">\
+		            <input id="item3" type="text" class="form-control" name="item3" value="' + ((values.ingredients.item3) ? values.ingredients.item3 : "") + '" required autofocus>\
+		        </div>\
+		        <label for="amount3" class="col-md-2 col-form-label">amount3</label>\
+		        <div class="col-md-3">\
+		            <input id="amount3" type="text" class="form-control" name="amount3" value="' + ((values.ingredients.amount3) ? values.ingredients.amount3 : "") + '" required autofocus>\
+		        </div>\
+		    </div>\
             <input id="category" type="hidden" class="form-control" name="category" value="' + values.category + '">\
             <div class="form-group">\
 		        <label for="image" class="col-md-12 col-form-label">Picture</label>\
@@ -155,13 +226,39 @@
         console.log(values);
         var MenuID = $('#Menu_id').val();
         var img = $('#selected_img').val();       
+        if(values[0].value == ""){
+            alert("Please enter "+values[0].name);
+        } else if(values[1].value == ""){
+            alert("Please enter "+values[1].name);
+        } else if(values[2].value == ""){
+            alert("Please enter "+values[2].name);
+        } else if(values[3].value == ""){
+            alert("Please enter "+values[3].name);
+        } else if(values[5].value == ""){
+            alert("Please enter "+values[5].name);
+        } else if(values[6].value == ""){
+            alert("Please enter "+values[6].name);
+        } else if(values[7].value == ""){
+            alert("Please enter "+values[7].name);
+        } else {                   
         var postData = {
             name: values[0].value,
             description: values[1].value,
             price: values[2].value,
-            category: values[3].value,
+            portion : parseInt(values[3].value),
+            difficulty : values[4].value,
+            cooktime : parseInt(values[5].value),
+            ingredients : {
+                item1 : values[6].value,
+                amount1 : parseInt(values[7].value),
+                item2 : values[8].value,
+                amount2 : (values[9].value) ? parseInt(values[9].value) : 0,
+                item3 : values[10].value,
+                amount3 : (values[11].value) ? parseInt(values[11].value) : 0
+            },
+            category: values[12].value,
             available: true,
-            image: ((values[4].value) ? values[4].value : ''),            
+            image: ((values[13].value) ? values[13].value : ''),            
             };
         var updates = {};
         updates['/menu/' + MenuID] = postData;
@@ -190,23 +287,19 @@
             uploadTask.snapshot.ref.getDownloadURL().then(function (downlaodURL) {
                 //get your upload image url here...
                 console.log(downlaodURL);
-                var postData = {
-                    name: values[0].value,
-                    description: values[1].value,
-                    price: values[2].value,
-                    category: values[3].value,
-                    available: true,
+                var postData = {                    
                     image: downlaodURL
                     };
                 var updates = {};
                 updates['/menu/' + MenuID] = postData;
-                firebase.database().ref().update(updates);
+                firebase.database().ref('menu/' + MenuID).update(postData);
             });
         });  
         }  
         $("[data-dismiss=modal]").trigger({ type: "click" });
         // location.reload();
         $("#update-modal-menu").modal('hide');
+        }
     });
     // Remove Data
     $("body").on('click', '.removeData_menu', function () {
