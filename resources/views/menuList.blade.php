@@ -19,12 +19,6 @@
             <th>Portion</th>
             <th>Cook Time</th>
             <th>Difficulty</th>
-            <th>item1</th>
-            <th>amount1</th>
-            <th>item2</th>
-            <th>amount2</th>
-            <th>item2</th>
-            <th>amount2</th>
             <th width="180" class="text-center">Action</th>
         </tr>
         <tbody id="tbody">
@@ -116,12 +110,6 @@
                 <td>' + value.portion + '</td>\
                 <td>' + value.cooktime + '</td>\
                 <td>' + value.difficulty + '</td>\
-                <td>' + value.ingredients.item1 + '</td>\
-                <td>' + value.ingredients.amount1 + '</td>\
-                <td>' + value.ingredients.item2 + '</td>\
-                <td>' + value.ingredients.amount2 + '</td>\
-                <td>' + value.ingredients.item3 + '</td>\
-                <td>' + value.ingredients.amount3 + '</td>\
         		<td><button data-toggle="modal" data-target="#update-modal-menu" class="btn btn-info updateData_menu" data-id="' + index + '">Update</button>\
         		<button data-toggle="modal" data-target="#remove-modal" class="btn btn-danger removeData_menu" data-id="' + index + '">Delete</button></td>\
         	</tr>');

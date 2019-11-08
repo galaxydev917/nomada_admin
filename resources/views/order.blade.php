@@ -140,7 +140,7 @@
         updateID = $(this).attr('data-id');               
         firebase.database().ref('orders/' + updateID).on('value', function (snapshot) {
             var values = snapshot.val();
-            if(values.PurchaseStatus == "Delivered") {
+            if(values.PurchaseStatus == "cust_delivered") {
                 $('.updateCustomer').hide();
             }
             var theDate = new Date(values.orderTime);
@@ -166,20 +166,20 @@
                         <option value="On the Way" ' + ((values.PurchaseStatus == "On the Way") ? selected="selected" : "") + '>On the Way</option>\
                         <option value="guy_delivered" ' + ((values.PurchaseStatus == "guy_delivered") ? selected="selected" : "") + '>Guy Delivered</option>\
                         <option value="cust_delivered" ' + ((values.PurchaseStatus == "cust_delivered") ? selected="selected" : "") + '>Customer Delivered</option>\
-                        <option value="Delivered" ' + ((values.PurchaseStatus == "Delivered") ? selected="selected" : "") + '>Delivered</option></select>\
+                        <option value="deleted" ' + ((values.PurchaseStatus == "deleted") ? selected="selected" : "") + '>Deleted</option></select>\
 		        </div>\
 		    </div>\
             <div class="form-group">\
 		        <label for="price" class="col-md-12 col-form-label">Assign Order To</label>\
 		        <div class="col-md-12">\
-                    <select id=delivery_guy class="form-control" name="delivery_guy" ' + ((values.PurchaseStatus == "Delivered") ? disabled="disabled" : "") + '>'+data+'\
+                    <select id=delivery_guy class="form-control" name="delivery_guy" ' + ((values.PurchaseStatus == "cust_delivered") ? disabled="disabled" : "") + '>'+data+'\
                     </select>\
                 </div>\
             </div>\
             <div class="form-group">\
                 <label for="Delivery Time" class="col-md-12 col-form-label">Delivery Time</label>\
                 <div class="date col-md-12">\
-                    <input type="text" class="form-control" name="deliveryTime" value="'+values.deliveryTime+'" id="datetimepicker1" ' + ((values.PurchaseStatus == "Delivered") ? disabled="disabled" : "") + ' />\
+                    <input type="text" class="form-control" name="deliveryTime" value="'+values.deliveryTime+'" id="datetimepicker1" ' + ((values.PurchaseStatus == "cust_delivered") ? disabled="disabled" : "") + ' />\
                     </div>\
             </div><div class="form-group" style="height:100px;"></div>';                
             $('#updateBody').html(updateData);
